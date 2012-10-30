@@ -59,10 +59,11 @@
 
 	<div data-role="content">
 		<div class="submit-form" data-role="fieldcontain">
-			<a href="#" class="add_image ui-btn">
+			<div href="#" id="upload_override" class="add_image">
 				<i class="icon-camera"></i>
 				<h2>Tap to add photo</h2>
-			</a>
+			</div>
+			<input id="photo-input" type="file" accept="image/*" capture="camera" class="ui-btn" />
 			<br />
 		    	<textarea type="text" name="name" id="basic" value="" placeholder="Description"></textarea>
 		    	<br />
@@ -163,5 +164,11 @@
 	</div>
 
 </div>
+
+<script type="text/javascript">
+	$('#upload_override').click(function(e) {
+		$('#photo-input').click();
+	})
+</script>
 </body>
 </html>
