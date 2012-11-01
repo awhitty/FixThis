@@ -13,6 +13,7 @@
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.3.0/less-1.3.0.min.js"></script>
+	<script src="http://malsup.github.com/jquery.form.js"></script> 
 </head> 
 <body>
 <div id="login" data-role="page" data-title="Dashboard">
@@ -63,12 +64,14 @@
 				<i class="icon-camera"></i>
 				<h2>Tap to add photo</h2>
 			</div>
-			<input id="photo-input" type="file" accept="image/*" capture="camera" class="ui-btn" />
+			<form id="photo-input-form" action="/preview/" method="post">
+				<input id="photo-input" name="image" type="file" accept="image/*" capture="camera" class="ui-btn" />
+			</form>
 			<br />
 		    	<textarea type="text" name="name" id="basic" value="" placeholder="Description"></textarea>
-		    	<br />
+		    	<br /><br />
 		    	<label for="slider-1" class="muted">Urgency:</label>
-				<input type="range" name="urgency_slider" id="submit_urgency_slider" class="slider" value="5" min="0" max="10" />
+			<input type="range" name="urgency_slider" id="submit_urgency_slider" class="slider" value="5" min="0" max="10" />
 			
 		</div>
 	</div>
@@ -166,14 +169,13 @@
 </div>
 
 <script type="text/javascript">
-	// Override file upload button for "Tap to add photo"
-	// $('#upload_override').click(function(e) { $('#photo-input').click() })
+	// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
+	$('#upload_override').click(function(e) { $('#photo-input').click() })
+
 	$('#photo-input').on('change', function () {
-		alert('sup')
-		console.log('hi')
-		// $.post('/preview/', $(this).val(), function(data) {
-		//   alert(data)
-		// });
+		$(this).parent().ajaxSubmit(function(d) {
+			$('#upload_override').css('background-image', 'url(\''+d+'\')')
+		})
 		// $.ajax({
 		//   type: 'POST',
 		//   url: '/preview/',
