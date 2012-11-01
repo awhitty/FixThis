@@ -1,23 +1,17 @@
 # FixThis
 *We're making the world a better place here.*
 
+## Requirements
+* [MAMP](http://www.mamp.info) or [WAMP](http://www.wampserver.com/en/) for local development
+* [Heroku toolbelt](https://toolbelt.heroku.com) for cloud development
+
 ## Set up/Installation
+### Local development
 1. Clone the repository
-2. Run `python -m SimpleHTTPServer`.
-3. Open [http://localhost:8000](http://localhost:8000) in your web browser.
-4. If you know your computer's IP address, try accessing it on port 8000 from your phone.
+2. Configure MAMP/WAMP with the directory
+3. Run it!
 
-This is probably most definitely going to change as we figure the structure out a bit more.
-
-## Ideas for implementation
-1. We use PhoneGap for the native APIs (camera, maps, etc.)
-	* this poses a challenge since web apps need to talk to a server
-	* templates can't be directly rendered online if we're using PhoneGap
-	* we have to use AJAX calls to GET, PUT, and POST data
-2. We use JQTouch instead of jQuery mobile for the interface
-	* it's a lot more responsive
-	* it's more easily themeable with SASS
-3. We use Flask for the backend
-	* we'd only have to provide JSON from the backend
-	* backbone and mustache.js for rendering?
-	* how technical do we want to get?
+### Cloud development
+1. Configure Heroku on your machine
+2. Ask me to add you as a collaborator if you aren't already
+3. I'm not sure, but I think you need to add the heroku git repos to your remote list on your local repo

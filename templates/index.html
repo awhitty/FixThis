@@ -174,16 +174,8 @@
 
 	$('#photo-input').on('change', function () {
 		$(this).parent().ajaxSubmit(function(d) {
-			$('#upload_override').css('background-image', 'url(\''+d+'\')')
+			$('#upload_override').css('background-image', 'url(\''+d+'\')');
 		})
-		// $.ajax({
-		//   type: 'POST',
-		//   url: '/preview/',
-		//   data: $(this).val(),
-		//   success: function (data) {
-		//   	,
-		//   dataType: dataType
-		// });
 	})
 
 
