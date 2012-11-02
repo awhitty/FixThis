@@ -93,9 +93,67 @@
 		<a href="#submit" data-transition="slidedown"><i class="icon-plus"></i> Submit</a>
 	</div>
 
-	<!-- <div data-role="content"> -->
-		<img src="http://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&maptype=roadmap&sensor=false&scale=2" width="400" height="400" alt="">
-	<!-- </div> -->
+	<section id="wrapper">
+	 
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	    <article>
+	      <p id="statusBlock"><span id="status">Please wait whilst we try to locate you...</span></p>
+	    </article>
+	<script>
+	function success(position) {
+	  var s = document.querySelector('#status');
+	 
+	  if (s.className == 'success') {
+	    return;
+	  }
+	 
+	  s.innerHTML = "found you!";
+	  s.className = 'success';
+
+	  var statusBlock = document.getElementById("statusBlock");
+	  statusBlock.style.display="none";
+
+	 
+	  var mapcanvas = document.createElement('div');
+	  mapcanvas.id = 'mapcanvas';
+	  mapcanvas.style.height = '500px'; //need to dynamically size to size of viewable browser area
+	  mapcanvas.style.width = '560px';
+	 
+	  document.querySelector('article').appendChild(mapcanvas);
+	 
+	  var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	  var myOptions = {
+	    zoom: 15,
+	    center: latlng,
+	    mapTypeControl: false,
+	    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	  var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+	 
+	  var marker = new google.maps.Marker({
+	      position: latlng,
+	      map: map,
+	      title:"You are here!"
+	  });
+	}
+	 
+	function error(msg) {
+	  var s = document.querySelector('#status');
+	  s.innerHTML = typeof msg == 'string' ? msg : "failed";
+	  s.className = 'fail';
+	 
+	  // console.log(arguments);
+	}
+	 
+	if (navigator.geolocation) {
+	  navigator.geolocation.getCurrentPosition(success, error);
+	} else {
+	  error('not supported');
+	}
+	 
+	</script>
+	</section>
 	<div data-role="footer" data-position="fixed">
 		<div data-role="navbar">
 			<ul>
