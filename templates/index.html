@@ -50,6 +50,7 @@
 		</div>
 
 		<script type="text/javascript">
+			// TODO: We need to clean this code up
 			$('#login-form').hide()
 			$('#register-form').hide()
 
@@ -216,7 +217,54 @@
 	</div>
 
 	<div data-role="content">
-		<h1>This is where a list would go</h1>
+
+		<!-- TODO: Add iScroll/pull-to-refresh support for listview -->
+		<ul data-role="listview">
+			<li data-role="list-divider">Your fixes</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit" data-transition="pop">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Broken sink</h3>
+					<p class="muted ui-li-desc">(0.3 miles from your location)</p>
+				</a>
+			</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Door hinge needs grease</h3>
+					<p class="muted ui-li-desc">(0.6 miles from your location)</p>
+				</a>
+			</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Sprinkler leaking</h3>
+					<p class="muted ui-li-desc">(1.2 miles from your location)</p>
+				</a>
+			</li>
+			<li data-role="list-divider">Nearby fixes</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit" data-transition="pop">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Broken sink</h3>
+					<p class="muted ui-li-desc">(0.3 miles from your location)</p>
+				</a>
+			</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Door hinge needs grease</h3>
+					<p class="muted ui-li-desc">(0.6 miles from your location)</p>
+				</a>
+			</li>
+			<li>
+				<a href="#detail" class="ui-link-inherit">
+					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
+					<h3 class="ui-li-heading">Sprinkler leaking</h3>
+					<p class="muted ui-li-desc">(1.2 miles from your location)</p>
+				</a>
+			</li>
+		</ul>
 	</div>
 
 	<div data-role="footer" data-position="fixed">
@@ -226,6 +274,19 @@
 				<li><a href="#list" class="ui-btn-active ui-state-persist" data-transition="none"><i class="icon-list"></i> List</a></li>
 			</ul>
 		</div>
+	</div>
+
+</div>
+
+<div id="detail" data-role="page">
+
+	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
+		<h1>Broken sink</h1>
+		<a href="#" data-rel="back"><i class="icon-caret-left"></i> Back</a>
+	</div>
+
+	<div data-role="content">
+		<h1>This is where users will search for FixThis requests!</h1>
 	</div>
 
 </div>
