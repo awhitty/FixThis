@@ -7,9 +7,9 @@ $app->get('/', function () use ($app) {
     echo $app->render('index.html');
 });
 
-$app->post('/login/?', function () use ($app) {
-    echo $app->render('index.html');
-});
+// $app->post('/login/?', function () use ($app) {
+//     echo $app->render('index.html');
+// });
 
 $app->post('/preview/', function () {
 	if (!isset($_FILES['image'])) {

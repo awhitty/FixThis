@@ -20,10 +20,53 @@
 	<div data-role="content">
 		<h1 class="center">FixThis</h1>
 		<br><br>
-		<div data-role="controlgroup" data-type="horizontal" class="center">
-			<a href="#dashboard" data-role="button" data-theme="b" data-transition="flow">Sign in</a>
-			<a href="#dashboard" data-role="button" data-theme="c" data-transition="flow">Register</a>
+		<div id="login-buttons" data-role="controlgroup" data-type="horizontal" class="center">
+			<a id="login-button"    href="#" data-role="button" data-theme="c" data-transition="flow">Sign in</a>
+			<a id="register-button" href="#" data-role="button" data-theme="c" data-transition="flow">Register</a>
+			<a id="skip-button" 	href="#dashboard" data-role="button" data-theme="c" data-transition="flow">Skip</a>
 		</div>
+
+		<div id="bottom-half">
+			<form id="login-form" action="/login/" method="post" class="ui-body ui-body-a ui-corner-all ui-hide-label">
+				<label for="username">Username/email:</label>
+				<input type="text" name="username" id="username" value="" placeholder="Username/email"/>
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" value="" placeholder="Password"/>
+				<button type="submit" data-theme="a" class="ui-btn-hidden" data-disabled="false">Log in</button>
+			</form>
+	
+			<form id="register-form" action="/register/" method="post" class="ui-body ui-body-a ui-corner-all ui-hide-label">
+				<label for="username">Username (optional):</label>
+				<input type="text" name="username" id="username" value="" placeholder="Username (optional)"/>
+				<label for="username">Email:</label>
+				<input type="text" name="email" id="email" value="" placeholder="Email"/>
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" value="" placeholder="Password"/>
+				<label for="password">Password (again):</label>
+				<input type="password" name="password" id="password" value="" placeholder="Password (again)"/>
+				<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false">Register</button>
+				<button type="submit" data-theme="c" class="ui-btn-hidden" data-disabled="false">Cancel</button>
+			</form>
+		</div>
+
+		<script type="text/javascript">
+			$('#login-form').hide()
+			$('#register-form').hide()
+
+			$('#login-button').click(function(e) {
+				$('#login-buttons a').removeClass('ui-btn-active')
+				$(this).addClass('ui-btn-active')
+				$('#login-form').show()
+				$('#register-form').hide()
+			})
+
+			$('#register-button').click(function(e) {
+				$('#login-buttons a').removeClass('ui-btn-active')
+				$(this).addClass('ui-btn-active')
+				$('#login-form').hide()
+				$('#register-form').show()
+			})
+		</script>
 	</div>
 
 </div>
