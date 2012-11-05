@@ -11,6 +11,8 @@
 
   $app = new Slim();
 
+  $app->post('/', 'main');
+
   // Auth
   $app->post('/auth', 'register');
   $app->put('/auth', 'login');
@@ -23,7 +25,20 @@
   $app->get('/areas/:id', 'getAreasByUserId');
   $app->post('/areas', 'addArea');
 
+  // preview
+  $app->post('/preview', 'previewImage');
+
   $app->run();
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  // Main
+  //
+  /////////////////////////////////////////////////////////////////////////
+
+  function main() {
+    echo "hi";
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -214,4 +229,19 @@
     if ($params->id) {
       echo json_encode($params);
     }
+  }
+
+  // PREVIEW
+  function previewImage() {
+    if (!isset($_FILES['image'])) {
+        echo "No image";
+        return;
+    }
+
+    // TODO: Figure out file naming conventions
+    if (!file_exists("../media/requests/" . $_FILES["image"]["name"])) {
+      move_uploaded_file($_FILES["image"]["tmp_name"], 
+                         "../media/requests/" . $_FILES["image"]["name"]);
+    }
+    echo "media/requests/" . $_FILES["image"]["name"];
   }
