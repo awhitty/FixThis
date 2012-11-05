@@ -127,6 +127,18 @@
 			</ul>
 		</div>
 	</div>
+	<script type="text/javascript">
+		// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
+		$('#upload_override').click(function(e) { $('#photo-input').click() })
+	
+		$('#photo-input').on('change', function () {
+			$(this).parent().ajaxSubmit(function(d) {
+				$('#upload_override').css('background-image', 'url(\''+d+'\')');
+			})
+		})
+	
+	
+	</script>
 </div>
 
 <div id="map" data-role="page">
@@ -222,21 +234,21 @@
 		<ul data-role="listview">
 			<li data-role="list-divider">Your fixes</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit" data-transition="pop">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Broken sink</h3>
 					<p class="muted ui-li-desc">(0.3 miles from your location)</p>
 				</a>
 			</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Door hinge needs grease</h3>
 					<p class="muted ui-li-desc">(0.6 miles from your location)</p>
 				</a>
 			</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Sprinkler leaking</h3>
 					<p class="muted ui-li-desc">(1.2 miles from your location)</p>
@@ -244,21 +256,21 @@
 			</li>
 			<li data-role="list-divider">Nearby fixes</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit" data-transition="pop">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide" data-transition="pop">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Broken sink</h3>
 					<p class="muted ui-li-desc">(0.3 miles from your location)</p>
 				</a>
 			</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Door hinge needs grease</h3>
 					<p class="muted ui-li-desc">(0.6 miles from your location)</p>
 				</a>
 			</li>
 			<li>
-				<a href="#detail" class="ui-link-inherit">
+				<a href="#detail" class="ui-link-inherit" data-transition="slide">
 					<img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/album-p.jpg" class="ui-li-thumb">
 					<h3 class="ui-li-heading">Sprinkler leaking</h3>
 					<p class="muted ui-li-desc">(1.2 miles from your location)</p>
@@ -286,7 +298,7 @@
 	</div>
 
 	<div data-role="content">
-		<h1>This is where users will search for FixThis requests!</h1>
+		<img src="/static/img/ScottKlemmer2011.jpg" width="200" alt="">
 	</div>
 
 </div>
@@ -329,18 +341,5 @@
 	</div>
 
 </div>
-
-<script type="text/javascript">
-	// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
-	$('#upload_override').click(function(e) { $('#photo-input').click() })
-
-	$('#photo-input').on('change', function () {
-		$(this).parent().ajaxSubmit(function(d) {
-			$('#upload_override').css('background-image', 'url(\''+d+'\')');
-		})
-	})
-
-
-</script>
 </body>
 </html>
