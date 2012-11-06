@@ -1,0 +1,42 @@
+	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
+		<h1>Submit</h1>
+		<a href="#dashboard" data-transition="pop"><i class="icon-th"></i></a>
+	</div>
+
+	<div data-role="content">
+		<div class="submit-form" data-role="fieldcontain">
+			<div href="#" id="upload_override" class="add_image">
+				<i class="icon-camera"></i>
+				<h2>Tap to add photo</h2>
+			</div>
+			<form id="photo-input-form" action="/preview/" method="post">
+				<input id="photo-input" name="image" type="file" accept="image/*" capture="camera" class="ui-btn" />
+			</form>
+			<br />
+		    	<textarea type="text" name="name" id="basic" value="" placeholder="Description"></textarea>
+		    	<br /><br />
+		    	<label for="slider-1" class="muted">Urgency:</label>
+			<input type="range" name="urgency_slider" id="submit_urgency_slider" class="slider" value="5" min="0" max="10" />
+			
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed" class="">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" data-rel="back" data-theme="c"><i class="icon-remove"></i> Cancel</a></li>
+				<li><a href="#" data-theme="b"><i class="icon-plus"></i> Submit</a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
+		$('#upload_override').click(function(e) { $('#photo-input').click() })
+	
+		$('#photo-input').on('change', function () {
+			$(this).parent().ajaxSubmit(function(d) {
+				$('#upload_override').css('background-image', 'url(\''+d+'\')');
+			})
+		})
+	
+	
+	</script>
