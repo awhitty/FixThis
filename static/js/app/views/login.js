@@ -1,7 +1,10 @@
+// from http://clintberry.com/2012/backbone-js-apps-authentication-tutorial/
+
 window.LoginView = Backbone.View.extend({
 
     initialize:function () {
         console.log('Initializing Login View');
+        this.template = _.template(tpl.get("login"));
     },
 
     events: {
@@ -10,6 +13,7 @@ window.LoginView = Backbone.View.extend({
 
     render:function () {
         $(this.el).html(this.template());
+        $(this.el).attr('id', 'login');
         return this;
     },
 

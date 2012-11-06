@@ -1,7 +1,7 @@
 // this code is from http://coenraets.org/blog/2012/03/using-backbone-js-with-jquery-mobile/
 
 // to use Backbone's routing, we have to disable jQM's routing
-$(document).bind("mobileinit", function () {
+$(window).bind("load", function () {
     $.mobile.ajaxEnabled = false;
     $.mobile.linkBindingEnabled = false;
     $.mobile.hashListeningEnabled = false;
@@ -16,8 +16,12 @@ $('div[data-role="page"]').on('pagehide', function (event, ui) {
 var AppRouter = Backbone.Router.extend({
  
     routes:{
-        "":"home",
-        "login": "login",
+        "":           "dashboard",
+        "dashboard":  "dashboard",
+        "login":      "login",
+        "map":        "mapRequests",
+        "list":       "listRequests",
+        "detail/:id": "requestDetail",
 
     },
 
@@ -27,23 +31,37 @@ var AppRouter = Backbone.Router.extend({
             window.history.back();
             return false;
         });
+
         this.firstPage = true;
+        // this.changePage(new DashboardView());
     },
+
+
  
-    home:function () {
-        alert('hi')
-        this.changePage(new HomeView());
+    dashboard:function () {
+        this.changePage(new DashboardView());
     },
- 
-    // login:function () {
-    //     this.changePage(new LoginView())
+
+    // map:function() {
+    //     this.changePage(new MapView());
     // },
  
+    login:function () {
+        this.changePage(new LoginView())
+    },
+ 
     changePage:function (page) {
-        $(page.el).attr('data-role', 'page');
+        // $(page.el).attr('data-role', 'page');
         page.render();
         $('body').append($(page.el));
         $.mobile.changePage($(page.el), {changeHash:false});
-    }
- 
+    }, 
 });
+
+
+
+
+
+
+
+

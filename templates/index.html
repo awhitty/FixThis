@@ -19,17 +19,33 @@
 	<script src="http://backbonejs.org/backbone.js"></script>
 
 	<!-- app -->
+	<script type="text/javascript" src="/static/js/app/main.js"></script>
+	<script type="text/javascript" src="/static/js/app/utils.js"></script>
 	<script type="text/javascript" src="/static/js/app/routing.js"></script>
 	<script type="text/javascript" src="/static/js/app/views/login.js"></script>
+	<script type="text/javascript" src="/static/js/app/views/dashboard.js"></script>
 </head> 
 <body>
+	<script type="text/javascript">
+			// TODO: We need to clean this code up
+			$(window).on('pagechange', function() {
+				$('#login-form').hide()
+			$('#register-form').hide()
 
-<script type="text/javascript">
-	// Initiate the router
-	$(document).ready(function () {
-    	console.log('document ready');
-    	app = new AppRouter();
-	});
-</script>
+			$('#login-button').click(function(e) {
+				$('#login-buttons a').removeClass('ui-btn-active')
+				$(this).addClass('ui-btn-active')
+				$('#login-form').show()
+				$('#register-form').hide()
+			})
+
+			$('#register-button').click(function(e) {
+				$('#login-buttons a').removeClass('ui-btn-active')
+				$(this).addClass('ui-btn-active')
+				$('#login-form').hide()
+				$('#register-form').show()
+			})
+			})
+	</script>
 </body>
 </html>
