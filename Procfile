@@ -1,1 +1,1 @@
-web: gunicorn FixThis.wsgi
+web: gunicorn FixThis.wsgi --bind=0.0.0.0:$PORT
