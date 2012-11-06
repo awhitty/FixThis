@@ -3,4 +3,4 @@
 env/*
 *.pyc
 media/*
-db/*
+db/*.sqlite
