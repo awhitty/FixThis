@@ -1,8 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
-		<h1>Broken sink</h1>
-		<a href="#" data-rel="back"><i class="icon-caret-left"></i> Back</a>
+		<h1>{{ fix.description|truncatewords:5 }}</h1>
+		<a href="/" data-rel="back"><i class="icon-caret-left"></i> Back</a>
 	</div>
 
 	<div data-role="content">
-		<img src="/static/img/ScottKlemmer2011.jpg" width="200" alt="">
+		<img src="{{ fix.image.url }}" alt="">
+		<br>
+		{{ fix.description|safe }}
+		<br>
+		<input type="range" name="urgency_slider" id="submit_urgency_slider" class="slider" value="{{ fix.urgency }}" min="0" max="10" />
+
+		{{ fix.nearby }}
 	</div>
+
+	{# The following code might be nice... #}
+	{% with fix.nearby as nearby_fixes %}
+		{% if nearby_fixes %}
+			{% for nearby_fix in nearby_fixes %}
+		    	{{ nearby_fix }}
+		    {% endfor %}
+		{% endif %}
+	{% endwith %}
+{% endblock content %}
