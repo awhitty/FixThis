@@ -13,3 +13,4 @@
 3. Now activate the virtual environment using `source env/bin/activate`
 4. Install all of the dependencies for the app using `pip install -r requirements.txt`
 5. You can now (hopefully) run `python manage.py runserver` to test the app
+6. If you have [foreman](http://theforeman.org) installed, you can run `foreman start` to test the production server ([gunicorn](http://gunicorn.org))
