@@ -3,4 +3,5 @@ PIL==1.1.7
 South==0.7.6
 -e git://github.com/SmileyChris/easy-thumbnails.git@abd6053c4c76b068c89975ae094c58c69239c567#egg=easy_thumbnails-dev
 gunicorn==0.15.0
+psycopg2==2.4.5
 wsgiref==0.1.2
