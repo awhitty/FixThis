@@ -2,16 +2,14 @@
 *We're making the world a better place here.*
 
 ## Requirements
-* [MAMP](http://www.mamp.info) or [WAMP](http://www.wampserver.com/en/) for local development
-* [Heroku toolbelt](https://toolbelt.heroku.com) for cloud development
+* [Virtualenv.py](https://raw.github.com/pypa/virtualenv/master/virtualenv.py)
+* Python 2.7 (ish)
 
-## Set up/Installation
-### Local development
+### Set up/Installation
 1. Clone the repository
-2. Configure MAMP/WAMP with the directory
-3. Run it!
-
-### Cloud development
-1. Configure Heroku on your machine
-2. Ask me to add you as a collaborator if you aren't already
-3. I'm not sure, but I think you need to add the heroku git repos to your remote list on your local repo
+2. Run something like `virtualenv.py env` to create a new virtual environment in the repo
+	* I'd recommend naming it `env` since this is in the `.gitignore` file
+	* This will also install pip in the environment, which is nice
+3. Now activate the virtual environment using `source env/bin/activate`
+4. Install all of the dependencies for the app using `pip install -r requirements.txt`
+5. You can now (hopefully) run `python manage.py runserver` to test the app

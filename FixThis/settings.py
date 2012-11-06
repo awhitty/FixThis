@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'FixThis',
     'south',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging

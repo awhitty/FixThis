@@ -1,1 +1,1 @@
-web: python FixThis/manage.py runserver
+web: gunicorn FixThis.wsgi
