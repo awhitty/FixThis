@@ -17,6 +17,7 @@
 	<script src="http://malsup.github.com/jquery.form.js"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 	<script type="text/javascript" src="https://raw.github.com/HPNeo/gmaps/master/gmaps.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
 	{# <script src="http://documentcloud.github.com/underscore/underscore.js"></script> #}
 	{# <script src="http://backbonejs.org/backbone.js"></script> #}
 
@@ -26,9 +27,23 @@
 	{# <script type="text/javascript" src="/static/js/app/routing.js"></script> #}
 	{# <script type="text/javascript" src="/static/js/app/views/login.js"></script> #}
 	{# <script type="text/javascript" src="/static/js/app/views/dashboard.js"></script> #}
+
+	<script type="text/javascript">
+		// if (!$.cookie('userLat')&&!$.cookie('userLon')) {
+			GMaps.geolocate({
+				success: function(position) {
+  			  		$.cookie('userLat', position.coords.latitude)
+  			  		$.cookie('userLon', position.coords.longitude)
+  			  		console.log("Finished locating user and set a cookie")
+  				},
+			})
+		// }
+	</script>
 </head> 
 <body>
-{% block content %}{% endblock content %}
+	<div id="{% block id %}{% endblock id %}" data-role="page">
+		{% block content %}{% endblock content %}
+	</div>
 
 	<script type="text/javascript">
 			// TODO: We need to clean this code up
@@ -50,6 +65,23 @@
 				$('#register-form').show()
 			})
 			})
+
+
+			// The following code is from https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
+			var csrftoken = $.cookie('csrftoken');
+
+			function csrfSafeMethod(method) {
+			    // these HTTP methods do not require CSRF protection
+			    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+			}
+			$.ajaxSetup({
+			    crossDomain: false, // obviates need for sameOrigin test
+			    beforeSend: function(xhr, settings) {
+			        if (!csrfSafeMethod(settings.type)) {
+			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			        }
+			    }
+			});
 	</script>
 </body>
 </html>

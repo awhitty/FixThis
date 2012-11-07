@@ -16,7 +16,11 @@ urlpatterns = patterns('',
     url(r'^register/$', 'FixThis.views.dashboard', name='register'),
     url(r'^settings/$', 'FixThis.views.dashboard', name='settings'),
 
+    # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),
+    url(r'^requests/preview/$', 'FixThis.views.previewImage', name='preview-image'),
+
+
     url(r'^requests/search/$', 'FixThis.views.dashboard', name='search-request'),
     url(r'^requests/detail/(?P<request_id>\d+)/$', 'FixThis.views.detailRequest', name='detail-request'),
     url(r'^requests/list/$', 'FixThis.views.listRequests', name='list-requests'),

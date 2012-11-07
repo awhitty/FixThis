@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'places',
     'easy_thumbnails',
+    'html5',
 )
 
 # A sample logging configuration. The only tangible logging
