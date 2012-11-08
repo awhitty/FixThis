@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed">
-		<h1>Dashboard</h1>
+		<h1>Welcome, {{ request.user }}!</h1>
 	</div>
 
 	<div data-role="content">
@@ -11,10 +11,22 @@
 		    	    <li><a href="{% url map-requests %}"      class="ui-btn" data-transition="flow"><i class="icon-map-marker"></i>Map</a></li>
 		    	    <li><a href="{% url list-requests %}"     class="ui-btn" data-transition="flow"><i class="icon-list"></i>List</a></li>
 		    	    {# <li><a href="#search"   class="ui-btn" data-transition="flow"><i class="icon-search"></i>Search</a></li> #}
+		    	    {% if request.user.is_authenticated %}
 		    	    <li><a href="#profile"  class="ui-btn" data-transition="flow"><i class="icon-user"></i>Profile</a></li>
+		    	    {% endif %}
 		    	    <li><a href="#settings" class="ui-btn" data-transition="flip"><i class="icon-cogs"></i>Settings</a></li>
-		    	    <li><a href="#login"	class="ui-btn" data-transition="flow"><i class="icon-signout"></i>Logout</a></li>
+		    	    {% if request.user.is_authenticated %}
+		    	    	<li><a href="{% url logout %}?next={% url home %}"	class="ui-btn" data-transition="flow"><i class="icon-signout"></i>Logout</a></li>
+		    	    {% else %}
+		    	    	<li><a href="#login-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-signin"></i>Log in</a></li>
+		    	    	<li><a href="#register-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-key"></i>Register</a></li>
+		    	    {% endif %}
+		    	    
 		    	</ul>
 		</div>
 	</div>
+
+	{% if request.user.is_anonymous %}
+		{% include "includes/auth_forms.html" %}
+	{% endif %}
 {% endblock content %}

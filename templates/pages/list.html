@@ -11,7 +11,7 @@
 
 		<!-- TODO: Add iScroll/pull-to-refresh support for listview -->
 		<ul data-role="listview">
-			<li data-role="list-divider">All fixes</li>
+			<li data-role="list-divider">Fixes within 2 miles of your location</li>
 			{% for req in requests %}
 				<li>
 					<a href="{% url detail-request req.id %}" class="ui-link-inherit" data-transition="slide">
