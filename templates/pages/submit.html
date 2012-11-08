@@ -16,7 +16,7 @@
 			<form id="submit-form" enctype="multipart/form-data" action="{% url add-request %}" method="POST" data-ajax="false">
 				{% csrf_token %}
 				{{ form.as_p }}
-				<input id="submit-button" type="submit" value="Submit" />
+				<input id="submit-button" type="submit" value="Submit" data-theme="b" />
 			</form>
 		</div>
 	</div>
@@ -35,6 +35,13 @@
 		if($.cookie('userLat')) {$('#id_latitude').val($.cookie('userLat'))}  
 		if($.cookie('userLon')) {$('#id_longitude').val($.cookie('userLon'))}  
 
+		$("#submit").on('pagebeforeshow', function(event, data) {
+			var prev_url = data.prevPage.attr('data-url')
+   			console.log("the previous page was: " + prev_url);
+   			if (prev_url) {
+   				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
+   			}
+		});
 	
 		// $('#photo-input').on('change', function () {
 		// 	console.log($(this).val())

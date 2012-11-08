@@ -32,6 +32,8 @@
 		// if (!$.cookie('userLat')&&!$.cookie('userLon')) {
 			GMaps.geolocate({
 				success: function(position) {
+					$.removeCookie('userLat');
+					$.removeCookie('userLon');
   			  		$.cookie('userLat', position.coords.latitude)
   			  		$.cookie('userLon', position.coords.longitude)
   			  		console.log("Finished locating user and set a cookie")
@@ -42,6 +44,13 @@
 </head> 
 <body>
 	<div id="{% block id %}{% endblock id %}" data-role="page">
+		{% if messages %}
+			<ul class="messages">
+    		{% for message in messages %}
+    			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    		{% endfor %}
+			</ul>
+		{% endif %}
 		{% block content %}{% endblock content %}
 	</div>
 

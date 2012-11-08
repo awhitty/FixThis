@@ -1,7 +1,7 @@
 # from django.contrib.gis.geoip import GeoIP
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.context_processors import csrf
 from django.contrib import messages
 
@@ -19,6 +19,7 @@ def listRequests(request):
 		latitude = request.COOKIES['userLat']
 		longitude = request.COOKIES['userLon']
 	except:
+		# this is where we could try to find the user's location by IP address
 		latitude = 30
 		longitude = 30
 
@@ -75,6 +76,12 @@ def addRequest(request):
 		form = SubmitForm(request.POST, request.FILES)
 		if form.is_valid():
 		    form.save()
+		    try:
+		    	return redirect(request.GET['next'])
+		    except:
+		    	redirect('home')
+		else:
+			messages.error(request, "Please fix the errors")
 
 
 	response = {
