@@ -7,7 +7,7 @@ from models import Request
 class SubmitForm(ModelForm):
 	class Meta:
 		model = Request
-		exclude = ('timestamp')
+		exclude = ('timestamp', 'user', 'status')
 	
 	description = forms.CharField(
     	widget=forms.widgets.Textarea()
