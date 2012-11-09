@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^register/$', 'FixThis.views.createUser', name='register'),
     url(r'^skip/$', 'FixThis.views.skipLogin', name='skip'),
     url(r'^settings/$', 'FixThis.views.settings', name='settings'),
-    url(r'^myfixthis/$', 'FixThis.views.myfixthisPage', name='myfixthis'),
+    url(r'^myfixthis/$', 'FixThis.views.myfixthis', name='myfixthis'),
 
     # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),
