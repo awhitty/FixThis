@@ -19,17 +19,17 @@
 						<img src="{{ req.image.url }}" class="ui-li-thumb">
 						<h3 class="ui-li-heading">{{ req.description|truncatewords:5 }}</h3>
 						<p class="muted ui-li-desc">{% distance_to latitude longitude req.latitude req.longitude %}</p>
-						<label class="muted ui-li-heading">
+						<p><label class="muted ui-li-heading">
 						{% if req.status == 0 %} OPEN 
-							{% else %} 
-								{% if req.status == 1 %} TAKEN
-									{% else %}
-										{% if req.status == 2 %} DONE
-											{% else %} NA
-										{% endif %}							 
-								{% endif %}
+							{% else %}
+							{% if req.status == 1 %} TAKEN
+								{% else %}
+								{% if req.status == 2 %} DONE
+									{% else %} NA
+								{% endif %}							 
+							{% endif %}
 						{% endif %}	
-						</label>
+						</label></p>
 					</a>
 				</li>
 			{% endfor %}

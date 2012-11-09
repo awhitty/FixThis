@@ -30,14 +30,20 @@
 		{# </div> #}
 	{# </div> #}
 	<script type="text/javascript">
+		//Hide latitude and longitude
+		$('p').has('#id_latitude').hide()
+		$('p').has('#id_longitude').hide()
+
 		// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
 		$('#upload_override').click(function(e) { $('#id_image').click() })
+
 		if($.cookie('userLat')) {$('#id_latitude').val($.cookie('userLat'))}  
 		if($.cookie('userLon')) {$('#id_longitude').val($.cookie('userLon'))}  
 
 		$("#submit").on('pagebeforeshow', function(event, data) {
 			var prev_url = data.prevPage.attr('data-url')
    			console.log("the previous page was: " + prev_url);
+   			//problem: activates if statement even when prev_url is undefined?
    			if (prev_url) {
    				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
    			}
