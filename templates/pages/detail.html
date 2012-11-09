@@ -4,7 +4,15 @@
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
 		<a href="/" data-rel="back"><i class="icon-caret-left"></i> Back</a>
+		<select name="select-choice-4" id="select-choice-4" data-theme="b" data-native-menu="false" tabindex="-1">
+			<option data-placeholder="true">Status: {{ fix.get_status_display }}</option>
+			<option {% if fix.status = 0 %}disabled="disabled"{% endif %} id="open" value="0">Open</option>
+			<option {% if fix.status = 1 %}disabled="disabled"{% endif %} id="taken" value="1">Taken</option>
+			<option {% if fix.status = 2 %}disabled="disabled"{% endif %} id="done" value="2">Done</option>
+		</select>
 	</div>
+
+	{{ fix.status }}
 <img src="{{ fix.image.url }}" alt="">
 		<div id="map"></div>
 	<div data-role="content">
@@ -40,5 +48,16 @@
 		});
 
 		$('<img/>').attr('src', url).width('500px').appendTo('#map');
+
+		$(document).bind('mobileinit',function(){
+   			$.mobile.selectmenu.prototype.options.nativeMenu = false;
+		});
+
+		$('select').on('change', function(e) {
+			alert('changed')
+			$.post('{% url update-request fix.id %}', { 'status': $(this).val(), }, function(data){
+				
+			})
+		})
 	</script>
 {% endblock content %}
