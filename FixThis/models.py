@@ -1,6 +1,7 @@
 import settings, datetime
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from places.managers import PlaceManager
 from places.utils import distance
@@ -10,6 +11,10 @@ class Request(models.Model):
 	timestamp = models.DateTimeField(default=datetime.datetime.now())
 	description = models.TextField()
 	urgency = models.IntegerField()
+
+	ORDER_STATUS = ((0, 'Open'), (1, 'Taken'), (2, 'Done'))
+	status = models.SmallIntegerField(choices=ORDER_STATUS)
+	user = models.ForeignKey(User, blank=True, null=True)
 
 	# These fields are required by django-places
 	latitude = models.DecimalField(max_digits=36, decimal_places=16)

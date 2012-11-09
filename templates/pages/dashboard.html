@@ -7,8 +7,8 @@
 	<div data-role="content">
 		<div class="icon-grid" data-role="navbar" data-iconpos="top">
 		    	<ul>
-		    	    <li><a href="{% url add-request %}"   class="ui-btn" data-transition="flow"><i class="icon-plus"></i>Submit</a></li>
 		    	    <li><a href="{% url map-requests %}"      class="ui-btn" data-transition="flow"><i class="icon-map-marker"></i>Map</a></li>
+		    	    <li><a href="{% url add-request %}"   class="ui-btn" data-transition="flow"><i class="icon-plus"></i>Submit</a></li>
 		    	    <li><a href="{% url list-requests %}"     class="ui-btn" data-transition="flow"><i class="icon-list"></i>List</a></li>
 		    	    {# <li><a href="#search"   class="ui-btn" data-transition="flow"><i class="icon-search"></i>Search</a></li> #}
 		    	    {% if request.user.is_authenticated %}

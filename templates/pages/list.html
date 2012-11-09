@@ -13,6 +13,8 @@
 		<ul data-role="listview">
 			<li data-role="list-divider">Fixes within 2 miles of your location</li>
 			{% for req in requests %}
+			{# {{ req.status }} This tag returns the request's status as a number 0-2 #} 
+			{# {{ req.get_status_display }} This tag returns the request's status as a string "Open", "Taken", etc.. #}
 				<li>
 					<a href="{% url detail-request req.id %}" class="ui-link-inherit" data-transition="slide">
 						<img src="{{ req.image.url }}" class="ui-li-thumb">
