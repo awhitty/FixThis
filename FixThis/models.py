@@ -13,7 +13,7 @@ class Request(models.Model):
 	urgency = models.IntegerField()
 
 	ORDER_STATUS = ((0, 'Open'), (1, 'Taken'), (2, 'Done'))
-	status = models.SmallIntegerField(choices=ORDER_STATUS)
+	status = models.SmallIntegerField(default=0, choices=ORDER_STATUS)
 	user = models.ForeignKey(User, blank=True, null=True)
 
 	# These fields are required by django-places
