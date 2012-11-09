@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^register/$', 'FixThis.views.createUser', name='register'),
     url(r'^skip/$', 'FixThis.views.skipLogin', name='skip'),
-    url(r'^settings/$', 'FixThis.views.home', name='settings'),
+    url(r'^settings/$', 'FixThis.views.settingsPage', name='settings'),
 
     # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),

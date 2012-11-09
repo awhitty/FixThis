@@ -187,8 +187,12 @@ def previewImage(request):
 		return "Bad request!"
 
 
-
-
+def settingsPage(request):
+	response = {
+		'request': request,
+	}
+	
+	return render_to_response('pages/settings.html', response)
 
 
 
