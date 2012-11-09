@@ -65,6 +65,8 @@ def login(request):
         'login_form': form,
 		'registration_form': SlimUserCreationForm
     }
+
+    response.update(csrf(request))
     return render_to_response('pages/login.html', response)
 
 def createUser(request):
