@@ -43,6 +43,7 @@
 		$("#submit").on('pagebeforeshow', function(event, data) {
 			var prev_url = data.prevPage.attr('data-url')
    			console.log("the previous page was: " + prev_url);
+   			//problem: activates if statement even when prev_url is undefined?
    			if (prev_url) {
    				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
    			}

@@ -157,14 +157,16 @@ def detailRequest(request, request_id):
 	return render_to_response('pages/detail.html', response)
 
 def addRequest(request):
+	print "REQUEST"
 	if request.method == 'GET':
 		form = SubmitForm()
 	else:
 		form = SubmitForm(request.POST, request.FILES)
 		if form.is_valid():
-		    form.save()
+		    newForm = form.save()
 		    try:
-		    	return redirect(request.GET['next'])
+		    	# return redirect(request.GET['next'])
+		    	return redirect('detail-request', newForm.id)
 		    except:
 		    	redirect('home')
 		else:
