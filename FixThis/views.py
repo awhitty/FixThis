@@ -187,13 +187,23 @@ def previewImage(request):
 		return "Bad request!"
 
 
-def settingsPage(request):
+def settings(request):
 	response = {
 		'request': request,
 	}
 	
 	return render_to_response('pages/settings.html', response)
 
+
+def myfixthis(request):
+	requests = Request.objects.filter(user=request.user)
+
+	response = {
+		'request': request, 
+		'requests': requests,
+	}
+	
+	return render_to_response('pages/myfixthis.html', response)
 
 
 
