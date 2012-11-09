@@ -203,11 +203,11 @@ def assignRequestToUser(request, request_id):
 		fixthis_request.status = 1
 		return HttpResponse("Success!")
 
-def myfixthis(request):
-	requests = Request.objects.filter(user=request.user)
+def myfixthisPage(request):
+	requests = Request.objects.all()
 
 	response = {
-		'request': request, 
+		'request': request,
 		'requests': requests,
 	}
 	
