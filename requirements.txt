@@ -1,6 +1,7 @@
 Django==1.4.2
 PIL==1.1.7
 South==0.7.6
+-e git://github.com/alex/django-taggit.git@36f6dabcf10e27c7d9442a94243d4189f2a4f121#egg=django_taggit-dev
 -e git://github.com/SmileyChris/easy-thumbnails.git@abd6053c4c76b068c89975ae094c58c69239c567#egg=easy_thumbnails-dev
 gunicorn==0.15.0
 -e git://github.com/rhec/django-html5.git@c4a76e02744422c3305f01ca361ab4b0cdcd1198#egg=html5-dev
