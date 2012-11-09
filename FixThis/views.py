@@ -194,7 +194,15 @@ def settingsPage(request):
 	
 	return render_to_response('pages/settings.html', response)
 
+def assignRequestToUser(request, request_id):
+	fixthis_request = get_object_or_404(Request, pk=request_id)
+	if fixthis_request.user:
+		return HttpResponse("This request already has a user")
+	else:
+		fixthis_request.user = request.user
+		fixthis_request.status = 1
 
+	return HttpResponse("Success!")
 
 
 

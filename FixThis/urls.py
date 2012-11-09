@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^requests/list/$', 'FixThis.views.listRequests', name='list-requests'),
     url(r'^requests/map/$', 'FixThis.views.mapRequests', name='map-requests'),
     url(r'^requests/lookup/(?P<user_id>\d+)/$', 'FixThis.views.home', name='user-requests'),
+    url(r'^requests/assign/(?P<request_id>\d+)/$', 'FixThis.views.assignRequestToUser', name='assign-request'),
 
     # url(r'^FixThis/', include('FixThis.foo.urls')),
 
