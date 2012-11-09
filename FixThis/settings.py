@@ -89,6 +89,11 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'FixThis.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -129,6 +134,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'places',
     'easy_thumbnails',
+    'html5',
 )
 
 # A sample logging configuration. The only tangible logging

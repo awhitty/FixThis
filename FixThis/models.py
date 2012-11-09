@@ -12,8 +12,8 @@ class Request(models.Model):
 	urgency = models.IntegerField()
 
 	# These fields are required by django-places
-	latitude = models.DecimalField(max_digits=9, decimal_places=6)
-	longitude = models.DecimalField(max_digits=9, decimal_places=6)
+	latitude = models.DecimalField(max_digits=36, decimal_places=16)
+	longitude = models.DecimalField(max_digits=36, decimal_places=16)
 
 	objects = PlaceManager()
 

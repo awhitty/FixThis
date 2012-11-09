@@ -5,9 +5,10 @@
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
 		<a href="/" data-rel="back"><i class="icon-caret-left"></i> Back</a>
 	</div>
-
+<img src="{{ fix.image.url }}" alt="">
+		<div id="map"></div>
 	<div data-role="content">
-		<img src="{{ fix.image.url }}" alt="">
+		
 		<br>
 		{{ fix.description|safe }}
 		<br>
@@ -24,4 +25,20 @@
 		    {% endfor %}
 		{% endif %}
 	{% endwith %}
+
+	<script type="text/javascript">
+		url = GMaps.staticMapURL({
+  			size: [610, 300],
+  			lat: {{ fix.latitude }},
+  			lng: {{ fix.longitude }},
+  			scale: 2,
+  			markers: [
+  			  {lat: {{ fix.latitude }}, lng: {{ fix.longitude }}},
+  			  {lat: {{ latitude }}, lng: {{ longitude }},
+  			    color: 'blue'}
+  			]
+		});
+
+		$('<img/>').attr('src', url).width('500px').appendTo('#map');
+	</script>
 {% endblock content %}

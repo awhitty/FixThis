@@ -10,18 +10,23 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'FixThis.views.dashboard', name='home'),
-    url(r'^login/$', 'FixThis.views.dashboard', name='login'),
-    url(r'^logout/$', 'FixThis.views.dashboard', name='logout'),
-    url(r'^register/$', 'FixThis.views.dashboard', name='register'),
-    url(r'^settings/$', 'FixThis.views.dashboard', name='settings'),
+    url(r'^$', 'FixThis.views.home', name='home'),
+    url(r'^login/$', 'FixThis.views.login', name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+    url(r'^register/$', 'FixThis.views.createUser', name='register'),
+    url(r'^skip/$', 'FixThis.views.skipLogin', name='skip'),
+    url(r'^settings/$', 'FixThis.views.home', name='settings'),
 
+    # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),
-    url(r'^requests/search/$', 'FixThis.views.dashboard', name='search-request'),
+    url(r'^requests/preview/$', 'FixThis.views.previewImage', name='preview-image'),
+
+
+    url(r'^requests/search/$', 'FixThis.views.home', name='search-request'),
     url(r'^requests/detail/(?P<request_id>\d+)/$', 'FixThis.views.detailRequest', name='detail-request'),
     url(r'^requests/list/$', 'FixThis.views.listRequests', name='list-requests'),
     url(r'^requests/map/$', 'FixThis.views.mapRequests', name='map-requests'),
-    url(r'^requests/lookup/(?P<user_id>\d+)/$', 'FixThis.views.dashboard', name='user-requests'),
+    url(r'^requests/lookup/(?P<user_id>\d+)/$', 'FixThis.views.home', name='user-requests'),
 
     # url(r'^FixThis/', include('FixThis.foo.urls')),
 

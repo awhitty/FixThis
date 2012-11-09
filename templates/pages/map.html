@@ -9,29 +9,39 @@
 	<div id="map">
 	</div>
 	<script>
-	var map = new GMaps({
-  		div: '#map',
-  		lat: -12.043333,
-  		lng: -77.028333,
-  		width: $('body').width(),
-  		height: '500px'
-	});
+	 var map = new GMaps({
+    		div: '#map',
+    		lat: -12.043333,
+    		lng: -77.028333,
+    		width: $('body').width(),
+    		height: '500px'
+	 });
 
-	GMaps.geolocate({
-  		success: function(position) {
-  		  map.setCenter(position.coords.latitude, position.coords.longitude);
-  		  console.log("Finished locating user")
-  		},
-  		error: function(error) {
-  		  console.log("User couldn't be located")
-  		},
-  		not_supported: function() {
-  		  console.log("User doesn't have geolocation")
-  		},
-  		always: function() {
-  		  console.log("Finished geolocation bizness")
-  		}
-	});
+   {% for req in requests %}
+    map.addMarker({
+      lat: {{ req.latitude }},
+      lng: {{ req.longitude }},
+      infoWindow: {
+        content: '<img src="{{ req.image.url }}" height="200" /><p>{{ req.description }}</p>'
+      }
+    });
+   {% endfor %}
+  
+	 GMaps.geolocate({
+    		success: function(position) {
+    		  map.setCenter(position.coords.latitude, position.coords.longitude);
+    		  console.log("Finished locating user")
+    		},
+    		error: function(error) {
+    		  console.log("User couldn't be located")
+    		},
+    		not_supported: function() {
+    		  console.log("User doesn't have geolocation")
+    		},
+    		always: function() {
+    		  console.log("Finished geolocation bizness")
+    		}
+	 });
 	</script>
 	</section>
 	{% include "includes/list-map-footer.html" %}

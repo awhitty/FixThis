@@ -1,32 +1,43 @@
+{% extends "base.html" %}
+{% block id %}login{% endblock id %}
+{% block content %}
 	<div data-role="content">
-		<h1 class="center">FixThis</h1>
+		<h1 class="center"><i class="icon-wrench"></i> FixThis</h1>
 		<br><br>
 		<div id="login-buttons" data-role="controlgroup" data-type="horizontal" class="center">
-			<a id="login-button"    href="#" data-role="button" data-theme="c" data-transition="flow">Sign in</a>
-			<a id="register-button" href="#" data-role="button" data-theme="c" data-transition="flow">Register</a>
-			<a id="skip-button" 	href="#dashboard" data-role="button" data-theme="c" data-transition="flow">Skip</a>
+			<a id="login-button"    href="#login-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Sign in</a>
+			<a id="register-button" href="#register-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Register</a>
+			<a id="skip-button" 	href="{% url skip %}" data-role="button" data-theme="c" data-transition="flow">Skip</a>
 		</div>
 
 		<div id="bottom-half">
-			<form id="login-form" action="/api/login/" method="put" class="ui-body ui-body-a ui-corner-all ui-hide-label">
-				<label for="username">Username/email:</label>
-				<input type="text" name="username" id="username" value="" placeholder="Username/email"/>
-				<label for="password">Password:</label>
-				<input type="password" name="password" id="password" value="" placeholder="Password"/>
-				<button type="submit" data-theme="a" class="ui-btn-hidden" data-disabled="false">Log in</button>
-			</form>
-	
-			<form id="register-form" action="/api/login/" method="post" class="ui-body ui-body-a ui-corner-all ui-hide-label">
-				<label for="username">Username (optional):</label>
-				<input type="text" name="username" id="username" value="" placeholder="Username (optional)"/>
-				<label for="username">Email:</label>
-				<input type="text" name="email" id="email" value="" placeholder="Email"/>
-				<label for="password">Password:</label>
-				<input type="password" name="password" id="password" value="" placeholder="Password"/>
-				<label for="password">Password (again):</label>
-				<input type="password" name="password" id="password" value="" placeholder="Password (again)"/>
-				<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false">Register</button>
-				<button type="submit" data-theme="c" class="ui-btn-hidden" data-disabled="false">Cancel</button>
-			</form>
+			{% include "includes/auth_forms.html" %}
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	// TODO: We need to clean this code up
+		// $('#login-form').hide()
+		// $(document).bind('pagechange' function() {
+		// 	$('#register-form').hide()
+	
+		// 	$('#login-button').click(function(e) {
+		// 		$('#login-buttons a').removeClass('ui-btn-active')
+		// 		$(this).addClass('ui-btn-active')
+		// 		$('#login-form').show()
+		// 		$('#register-form').hide()
+		// 	})
+	
+		// 	$('#register-button').click(function(e) {
+		// 		$('#login-buttons a').removeClass('ui-btn-active')
+		// 		$(this).addClass('ui-btn-active')
+		// 		$('#login-form').hide()
+		// 		$('#register-form').show()
+		// 	})
+	
+			// $('#skip-button').click(function(e) {
+			// 	$.cookie('skip', 'True')
+			// })
+		// })
+	</script>
+{% endblock %}
