@@ -189,7 +189,7 @@ def previewImage(request):
 		return "Bad request!"
 
 
-def settingsPage(request):
+def settings(request):
 	response = {
 		'request': request,
 	}
@@ -203,8 +203,17 @@ def assignRequestToUser(request, request_id):
 	else:
 		fixthis_request.user = request.user
 		fixthis_request.status = 1
+		return HttpResponse("Success!")
 
-	return HttpResponse("Success!")
+def myfixthisPage(request):
+	requests = Request.objects.all()
+
+	response = {
+		'request': request,
+		'requests': requests,
+	}
+	
+	return render_to_response('pages/myfixthis.html', response)
 
 
 

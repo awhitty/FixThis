@@ -12,7 +12,7 @@
 		    	    <li><a href="{% url list-requests %}"     class="ui-btn" data-transition="flow"><i class="icon-list"></i>List</a></li>
 		    	    {# <li><a href="#search"   class="ui-btn" data-transition="flow"><i class="icon-search"></i>Search</a></li> #}
 		    	    {% if request.user.is_authenticated %}
-		    	    <li><a href="#profile"  class="ui-btn" data-transition="flow"><i class="icon-user"></i>Profile</a></li>
+		    	    <li><a href="{% url myfixthis %}"  class="ui-btn" data-transition="flow"><i class="icon-user"></i>My FixThis</a></li>
 		    	    {% endif %}
 		    	    <li><a href="#settings" class="ui-btn" data-transition="flip"><i class="icon-cogs"></i>Settings</a></li>
 		    	    {% if request.user.is_authenticated %}
