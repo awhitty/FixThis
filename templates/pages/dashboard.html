@@ -18,7 +18,7 @@
 		    	    {% if request.user.is_authenticated %}
 		    	    	<li><a href="{% url logout %}?next={% url home %}"	class="ui-btn" data-transition="flow"><i class="icon-signout"></i>Logout</a></li>
 		    	    {% else %}
-		    	    	<li><a href="#login-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-signin"></i>Log in</a></li>
+		    	    	<li><a href="#login-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-signin"></i>Sign in</a></li>
 		    	    	<li><a href="#register-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-key"></i>Register</a></li>
 		    	    {% endif %}
 		    	    

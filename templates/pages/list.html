@@ -10,29 +10,19 @@
 
 		<!-- TODO: Add iScroll/pull-to-refresh support for listview -->
 		<ul data-role="listview">
-			<li data-role="list-divider">Fixes within 2 miles of your location</li>
-			{% for req in requests %}
-			{# {{ req.status }} This tag returns the request's status as a number 0-2 #} 
-			{# {{ req.get_status_display }} This tag returns the request's status as a string "Open", "Taken", etc.. #}
+			{% if requests %}
+				{% regroup requests|dictsort:"status" by get_status_display as request_list %}
+				{% for status in request_list %}
+					<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">{{ status.grouper }} FixThis requests</li>
+					{% for item in status.list %}
+						{% include "includes/list_item.html" with fix=item %}
+					{% endfor %}
+				{% endfor %}
+			{% else %}
 				<li>
-					<a href="{% url detail-request req.id %}" class="ui-link-inherit" data-transition="slide">
-						<img src="{{ req.image.url }}" class="ui-li-thumb">
-						<h3 class="ui-li-heading">{{ req.description|truncatewords:5 }}</h3>
-						<p class="muted ui-li-desc">{% distance_to latitude longitude req.latitude req.longitude %}</p>
-						<p><label class="muted ui-li-heading">
-						{% if req.status == 0 %} OPEN 
-							{% else %}
-							{% if req.status == 1 %} TAKEN
-								{% else %}
-								{% if req.status == 2 %} DONE
-									{% else %} NA
-								{% endif %}							 
-							{% endif %}
-						{% endif %}	
-						</label></p>
-					</a>
+					<h3 class="ui-li-heading">There are no requests in the database</h3>
 				</li>
-			{% endfor %}
+			{% endif %}
 		</ul>
 	</div>
 

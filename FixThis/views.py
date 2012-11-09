@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.context_processors import csrf
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, authenticate
+from django.views.generic.create_update import update_object
 
 from models import *
 from forms import *
@@ -164,7 +165,11 @@ def addRequest(request):
 	else:
 		form = SubmitForm(request.POST, request.FILES)
 		if form.is_valid():
-		    form.save()
+		    req = form.save()
+		    if request.user.is_authenticated():
+		    	req.submitted_user = request.user
+		    	req.save()
+
 		    try:
 		    	return redirect(request.GET['next'])
 		    except:
@@ -188,19 +193,45 @@ def previewImage(request):
 	else:
 		return "Bad request!"
 
-
+# @login_required
 def settingsPage(request):
-	response = {
-		'request': request,
-	}
-	
-	return render_to_response('pages/settings.html', response)
+	profile, created = Profile.objects.get_or_create(user=request.user)
+
+	return update_object(request,
+                        form_class=ProfileForm,
+                        object_id=profile.id,
+                        template_name='pages/settings.html')
 
 def updateRequestStatus(request, request_id):
 	fixthis_request = get_object_or_404(Request, pk=request_id)
 	if request.method == 'POST':
-		pass
+		status = request.POST.get('status','')
+		if status == '0':
+			fixthis_request.status = 0
+			fixthis_request.assigned_user = None
+		elif status == '1':
+			fixthis_request.status = 1
+			fixthis_request.assigned_user = request.user
+		else:
+			fixthis_request.status = 2
+			fixthis_request.assigned_user = None
+
+		print fixthis_request.save()
+
 	return HttpResponse("Success!")
+
+def myfixthis(request):
+	submitted_requests = Request.objects.filter(submitted_user=request.user)
+	assigned_requests = Request.objects.filter(assigned_user=request.user)
+
+	response = {
+		'request': request,
+		'submitted': submitted_requests,
+		'assigned': assigned_requests,
+	}
+
+	return render_to_response('pages/myfixthis.html', response)
+
 
 
 

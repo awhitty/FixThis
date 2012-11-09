@@ -1,39 +1,33 @@
 {% extends "base.html" %}
-{% load thumbnail places %}
+{% load thumbnail %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
-		<h1><i class="icon-user"></i>{{ request.user }}'s FixThis</h1>
+		<h1>{{ request.user }}'s FixThis</h1>
 		<a href="{% url home 5}" data-rel="back" data-transition="pop"><i class="icon-th"></i></a>
 	</div>
 	
 	<div data-role="content">
 		<ul data-role="listview">
-			<li data-role="list-divider">My FixThis requests</li>
-			{% if requests %}
-				{% for req in requests %}
-					<li>
-						<a href="{% url detail-request req.id %}" class="ui-link-inherit" data-transition="slide">
-							<img src="{{ req.image.url }}" class="ui-li-thumb">
-							<h3 class="ui-li-heading">{{ req.description|truncatewords:5 }}</h3>
-							<label class="muted ui-li-heading">
-							{# {{ req.status }} This tag returns the request's status as a number 0-2 #} 
-							{# {{ req.get_status_display }} This tag returns the request's status as a string "Open", "Taken", etc.. #}
-				
-							{% if req.status == 0 %} OPEN 
-								{% else %} 
-								{% if req.status == 1 %} TAKEN
-									{% else %}
-									{% if req.status == 2 %} DONE
-										{% else %} NA
-									{% endif %}							 
-								{% endif %}
-							{% endif %}	
-							</label>
-						</a>
-					</li>
+			<li data-role="list-divider">Things you need to fix</li>
+			{% if assigned %}
+				{% for req in assigned %}
+					{% include "includes/list_item.html" with fix=req %}
 				{% endfor %}
 			{% else %}
-				<h3 class="ui-li-heading">You don't have any requests.</h3>
+				<li>
+					<h3 class="ui-li-heading">You don't have any requests.</h3>
+				</li>
+			{% endif %}
+
+			<li data-role="list-divider">Things you want fixed</li>
+			{% if submitted %}
+				{% for req in submitted %}
+					{% include "includes/list_item.html" with fix=req %}
+				{% endfor %}
+			{% else %}
+				<li>
+					<h3 class="ui-li-heading">You don't have any requests.</h3>
+				</li>
 			{% endif %}
 		<ul>
 	</div>

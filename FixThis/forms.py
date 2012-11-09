@@ -2,12 +2,12 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from html5 import forms as five_forms
-from models import Request
+from models import *
 
 class SubmitForm(ModelForm):
 	class Meta:
 		model = Request
-		exclude = ('timestamp', 'user', 'status')
+		exclude = ('timestamp', 'submitted_user', 'assigned_user', 'status')
 	
 	description = forms.CharField(
     	widget=forms.widgets.Textarea()
@@ -21,6 +21,11 @@ class SubmitForm(ModelForm):
             ),
 		)
 	)
+
+class ProfileForm(ModelForm):
+	class Meta:
+		model = Profile
+		exclude = ('user')
 
 class SlimUserCreationForm(UserCreationForm):
 	username = forms.RegexField(

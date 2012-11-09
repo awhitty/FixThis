@@ -2,10 +2,10 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Settings</h1>
-		<a href="{% url home %}" data-rel="back" data-transition="pop"><i class="icon-th"></i></a>
+		<a href="{% url home %}" data-transition="pop"><i class="icon-th"></i></a>
 	</div>
 
 	<div data-role="content">
-		<h1>This is where we can view/modify a user's settings.</h1>
+		{{ form.as_p }}
 	</div>
 {% endblock content %}

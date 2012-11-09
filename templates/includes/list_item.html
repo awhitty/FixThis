@@ -1,0 +1,13 @@
+{% load places %}
+<li>
+					<a href="{% url detail-request fix.id %}" class="ui-link-inherit" data-transition="slide">
+						<img src="{{ fix.image.url }}" class="ui-li-thumb">
+						<h3 class="ui-li-heading">{{ fix.description|truncatewords:5 }}</h3>
+						{% if distance %}
+							<p class="muted ui-li-desc">{% distance_to latitude longitude fix.latitude fix.longitude %}</p>
+						{% endif %}
+						<p><label class="muted ui-li-heading">
+						{{ fix.get_status_display }}
+						</label></p>
+					</a>
+				</li>
