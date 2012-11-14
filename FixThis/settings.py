@@ -22,6 +22,14 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -70,6 +78,12 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'small_square': {'size': (50, 50), 'crop': True},
+    },
+}
 
 AUTH_PROFILE_MODULE = "FixThis.Profile"
 
@@ -129,6 +143,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.markup',
 
     # Our app:
     'FixThis',
@@ -137,7 +152,7 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     'places',
-    'easy_thumbnails',
+    'sorl.thumbnail',
     'html5',
     'taggit',
 )

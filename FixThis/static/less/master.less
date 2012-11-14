@@ -3,6 +3,11 @@
 @import url('niceties.less');
 @import url('variables.less');
 
+* {
+    -webkit-transform:translate3d(0,0,0);
+    -webkit-backface-visibility: hidden;
+}
+
 .toolbar
 {
 	// background: url('../img/noise.png');
@@ -86,5 +91,59 @@
 	.button
 	{
 		.icon-button;
+	}
+
+	.fieldWrapper
+	{
+		.errorlist 
+		{
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+	
+			li
+			{
+				font-size: 11px;
+				text-shadow: none;
+				color: @red;
+			}
+		}
+
+		&.errors
+		{
+			input, textarea
+			{
+				border-color: @red;
+			}
+		}
+	}
+}
+
+#detail
+{
+	#status-select
+	{
+		margin-top: -7px;
+	}
+
+	.carousel
+	{
+		margin: 0;
+		margin-top: -20px;
+		#gradient.vertical(#444, #222);
+		padding: 0;
+
+		ul
+		{
+			margin: 0;
+			padding: 0;
+			// display: block;
+
+			li
+			{
+				// display: inline;
+				margin: 0;
+			}
+		}
 	}
 }

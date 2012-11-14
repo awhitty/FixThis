@@ -1,31 +1,31 @@
 {% extends "base.html" %}
-
+{% load markup %}
+{% block id %}detail{% endblock id %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
-		<a href="/" data-rel="back"><i class="icon-caret-left"></i> Back</a>
-		<div class="ui-btn-right">
-			<select name="select-choice-4" id="select-choice-4" data-theme="b" data-native-menu="false" tabindex="-1">
-				<option data-placeholder="true">{{ fix.get_status_display }}</option>
-				<option {% if fix.status = 0 %}disabled="disabled"{% endif %} id="open" value="0">Open</option>
-				<option {% if fix.status = 1 %}disabled="disabled"{% endif %} id="taken" value="1">Taken</option>
-				<option {% if fix.status = 2 %}disabled="disabled"{% endif %} id="done" value="2">Done</option>
+		<a href="/" data-rel="back" data-icon="arrow-l">Back</a>
+		<div id="status-select" class="ui-btn-right">
+			<select name="select-choice-4" id="select-choice-4" data-theme="b" tabindex="-1">
+				<option {% if fix.status = 0 %}selected="selected"{% endif %} id="open" value="0">Open</option>
+				<option {% if fix.status = 1 %}selected="selected"{% endif %} id="taken" value="1">Taken</option>
+				<option {% if fix.status = 2 %}selected="selected"{% endif %} id="done" value="2">Done</option>
 			</select>
 		</div>
 	</div>
-
-	{{ fix.get_status_display }}
 	<br>
-	<img src="{{ fix.image.url }}" alt="">
-	<div id="map"></div>
+	<div class="carousel" id="{{ fix.id }}">
+		<ul style="height: {{ fix.image.height }};">
+			<li><img src="{{ fix.image.url }}" alt="" /></li>
+			<li><img id="{{ fix.id }}-map" /></li>
+		</ul>
+	</div>
 	<div data-role="content">
-		
-		<br>
-		{{ fix.description|safe }}
-		<br>
-		<input type="range" name="urgency_slider" id="submit_urgency_slider" class="slider" value="{{ fix.urgency }}" min="0" max="10" />
-
-		{{ fix.nearby }}
+		{{ fix.description|markdown }}
+		{% for tag in fix.tags.all %}
+			{{ tag }}
+		{% endfor %}
+		{# {{ fix.nearby }} #}
 	</div>
 
 	{# The following code might be nice... #}
@@ -38,8 +38,10 @@
 	{% endwith %}
 
 	<script type="text/javascript">
+		var width = $(document).width()
+		var height = Math.ceil({{ fix.image.height }}/{{ fix.image.width }} * $(document).width());
 		url = GMaps.staticMapURL({
-  			size: [610, 300],
+  			size: [width, height],
   			lat: {{ fix.latitude }},
   			lng: {{ fix.longitude }},
   			scale: 2,
@@ -49,12 +51,14 @@
   			    color: 'blue'}
   			]
 		});
+		$('#{{ fix.id }}-map').attr('src', url);
+		$('#{{ fix.id }} img').width($(document).width());
 
-		$('<img/>').attr('src', url).width('500px').appendTo('#map');
-
-		$(document).bind('mobileinit',function(){
-   			$.mobile.selectmenu.prototype.options.nativeMenu = false;
-		});
+		$('#detail').live('pageshow', function() {
+			window.swipe{{ fix.id }} = new Swipe(
+				document.getElementById('{{ fix.id }}')
+			);
+		})
 
 		$('select').on('change', function(e) {
 			$.post('{% url update-request fix.id %}', { 'status': $(this).val(), }, function(data){

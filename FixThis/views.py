@@ -165,17 +165,14 @@ def addRequest(request):
 	if request.method == 'GET':
 		form = SubmitForm()
 	else:
+		print request.POST
 		form = SubmitForm(request.POST, request.FILES)
 		if form.is_valid():
 		    req = form.save()
 		    if request.user.is_authenticated():
 		    	req.submitted_user = request.user
 		    	req.save()
-
-		    try:
-		    	return redirect(request.GET['next'])
-		    except:
-		    	redirect('home')
+		    	return redirect('detail-request', req.id)
 		else:
 			messages.error(request, "Please fix the errors")
 

@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Submit</h1>
-		<a href="/" data-rel="back" data-transition="pop">Cancel</a>
+		<a href="/" data-direction="reverse" data-transition="pop">Cancel</a>
 	</div>
 
 	<div data-role="content">
@@ -15,7 +15,12 @@
 			</div>
 			<form id="submit-form" enctype="multipart/form-data" action="{% url add-request %}" method="POST" data-ajax="false">
 				{% csrf_token %}
-				{{ form.as_p }}
+				{% for field in form %}
+        			<div class="fieldWrapper {% if field.errors %}errors{% endif %}" data-role="fieldcontain">
+        			    {{ field.errors }}
+        			    {{ field.label_tag }} {{ field }}
+        			</div>
+    			{% endfor %}
 				<input id="submit-button" type="submit" value="Submit" data-theme="b" />
 			</form>
 		</div>
@@ -31,8 +36,10 @@
 	{# </div> #}
 	<script type="text/javascript">
 		//Hide latitude and longitude
-		$('p').has('#id_latitude').hide()
-		$('p').has('#id_longitude').hide()
+		$('#id_latitude').parent().hide()
+		$('#id_longitude').parent().hide()
+
+		$('#id_description').attr('placeholder', 'Description')
 
 		// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
 		$('#upload_override').click(function(e) { $('#id_image').click() })
@@ -48,13 +55,22 @@
    				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
    			}
 		});
-	
-		// $('#photo-input').on('change', function () {
-		// 	console.log($(this).val())
-		// 	$(this).parent().ajaxSubmit(function(d) {
-		// 		$('#upload_override').css('background-image', 'url(\''+d+'\')');
-		// 	})
-		// })
+
+		$('#id_fake_tags').on('change', function() {
+			// alert($(this).val())
+		})
+
+		$('#id_image').on('change', function () {
+			var file = this.files[0];
+			// $('#upload_override').append("<img />")
+			var image = $('#upload_override')
+			reader = new FileReader();
+			reader.onload = function (e) {
+				image.css('background-image', 'url('+e.target.result+')')
+				$('#upload_override h2').html("Tap to change photo.")
+			}
+			reader.readAsDataURL(file);
+		})
 		// $('#submit-button').click(function(e) {
 		// 	$('#submit-form').ajaxSubmit(function(d) {
 		// 		alert($('#submit-form', d).html())

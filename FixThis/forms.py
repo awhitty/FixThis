@@ -22,6 +22,14 @@ class SubmitForm(ModelForm):
 		)
 	)
 
+	tags = forms.MultipleChoiceField(
+		choices=( (x.name, x.name) for x in Request.tags.most_common()),
+		widget = forms.widgets.SelectMultiple(
+			attrs = {
+				'data-native-menu': 'false',
+			}),
+		)
+
 class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
