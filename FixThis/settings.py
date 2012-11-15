@@ -55,22 +55,36 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = cwd + '/media/'
+# MEDIA_ROOT = cwd + '/media/'
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = '/media/'
+# # URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# # trailing slash.
+# # Examples: "http://example.com/media/", "http://media.example.com/"
+# MEDIA_URL = '/media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/var/www/example.com/static/"
-STATIC_ROOT = cwd + '/static/'
+# # Absolute path to the directory static files should be collected to.
+# # Don't put anything in this directory yourself; store your static files
+# # in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# # Example: "/var/www/example.com/static/"
+# STATIC_ROOT = cwd + '/static/'
 
-# URL prefix for static files.
-# Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+# # URL prefix for static files.
+# # Example: "http://example.com/static/", "http://static.example.com/"
+# STATIC_URL = '/static/'
+
+DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
+DEFAULT_S3_PATH = "media"
+STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+STATIC_S3_PATH = "static"
+AWS_ACCESS_KEY_ID = "AKIAIEDYWPP54C3FPF4A"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "fixthis-storage"
+
+MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
+MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+STATIC_ROOT = "/%s/" % STATIC_S3_PATH
+STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -155,6 +169,8 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'html5',
     'taggit',
+    'storages',
+    's3_folder_storage',
 )
 
 # A sample logging configuration. The only tangible logging

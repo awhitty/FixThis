@@ -21,11 +21,20 @@
 		</ul>
 	</div>
 	<div data-role="content">
-		{{ fix.description|markdown }}
-		{% for tag in fix.tags.all %}
-			{{ tag }}
-		{% endfor %}
-		{# {{ fix.nearby }} #}
+		<ul data-role="listview" data-inset="true">
+			{# <li class="ui-grid-a"> #}
+				{# <p class="muted ui-block-a">Status</p> #}
+				{# <p class="ui-block-b"><strong>{{ fix.get_status_display }}</strong></p> #}
+			{# </li> #}
+			<li>
+				<h3>Description</h3>
+				{{ fix.description|markdown }}
+			</li>
+			<li>
+				<h3>Tags</h3>
+				<p>{% for tag in fix.tags.all %}<span class="tag">{{ tag }}</span>{% endfor %}</p>
+			</li>
+		</ul>
 	</div>
 
 	{# The following code might be nice... #}
@@ -51,8 +60,9 @@
   			    color: 'blue'}
   			]
 		});
+
 		$('#{{ fix.id }}-map').attr('src', url);
-		$('#{{ fix.id }} img').width($(document).width());
+		$('#{{ fix.id }} img').width($(document).width() - 20);
 
 		$('#detail').live('pageshow', function() {
 			window.swipe{{ fix.id }} = new Swipe(

@@ -15,7 +15,7 @@
 				{% for status in request_list %}
 					<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">{{ status.grouper }} FixThis requests</li>
 					{% for item in status.list %}
-						{% include "includes/list_item.html" with fix=item distance=True %}
+						{% include "includes/list_item.html" with fix=item distance="true" %}
 					{% endfor %}
 				{% endfor %}
 			{% else %}
