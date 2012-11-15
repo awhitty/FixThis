@@ -12,6 +12,12 @@ from forms import *
 
 # TODO: Consider using another name for requests, since "request" is already a
 # thing in Django
+def getLocation(request):
+	latitude = request.COOKIES.get('userLat','')
+	longitude = request.COOKIES.get('userLon','')
+
+	return latitude, longitude
+
 
 def home(request, *args, **kwargs):
 
@@ -97,8 +103,7 @@ def createUser(request, *args, **kwargs):
 
 def listRequests(request, *args, **kwargs):
 	# print request
-	latitude = kwargs.get('latitude')
-	longitude = kwargs.get('longitude')
+	latitude, longitude = getLocation(request)
 
 	if latitude and longitude:
 		requests = Request.objects.nearby(latitude, longitude, 2)
@@ -215,6 +220,9 @@ def updateRequestStatus(request, request_id, *args, **kwargs):
 	return HttpResponse("Success!")
 
 def myfixthis(request, *args, **kwargs):
+	profile, created = Profile.objects.get_or_create(user=request.user)
+	# subscribed_requests = Request.objects.filter(tags__name__in=profile.subscribed_tags.all())
+	subscribed_requests = Request.objects.all()
 	submitted_requests = Request.objects.filter(submitted_user=request.user)
 	assigned_requests = Request.objects.filter(assigned_user=request.user)
 
@@ -222,6 +230,7 @@ def myfixthis(request, *args, **kwargs):
 		'request': request,
 		'submitted': submitted_requests,
 		'assigned': assigned_requests,
+		'subscribed': subscribed_requests,
 	}
 
 	return render_to_response('pages/myfixthis.html', response)

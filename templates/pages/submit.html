@@ -17,16 +17,17 @@
 				{% csrf_token %}
 				{% for field in form %}
         			<div class="fieldWrapper {% if field.errors %}errors{% endif %}" data-role="fieldcontain">
-        				{% if field.label = "Latitude" %}
-        				<fieldset data-role="controlgroup">
-        					<legend>Location</legend>
-        					<input type="radio" name="radio-choice" id="radio-choice-1" value="cur" checked="checked" />
-     						<label for="radio-choice-1" style="color: #049cdb;">Current Location</label>
+        				{# {% if field.label = "Latitude" %} #}
+        				{# <div class="map"></div> #}
+        				{# <fieldset id="fake_location" data-role="controlgroup"> #}
+        					{# <legend>Location</legend> #}
+        					{# <input type="radio" name="radio-choice" id="radio-choice-1" value="cur" checked="checked" /> #}
+     						{# <label for="radio-choice-1" style="color: #049cdb;">Current location</label> #}
 					
-     						<input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
-     						<label for="radio-choice-2">Enter address</label>
-     					</fieldset>
-        				{% endif %}
+     						{# <input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  /> #}
+     						{# <label for="radio-choice-2">Custom address</label> #}
+     					{# </fieldset> #}
+        				{# {% endif %} #}
         			    {{ field.errors }}
         			    {{ field.label_tag }} {{ field }}
         			</div>
@@ -35,6 +36,13 @@
 			</form>
 		</div>
 	</div>
+	{# <div data-role="popup" id="popupLocation" data-theme="a"> #}
+			{# <form> #}
+				{# <div style="padding:10px 20px;"> #}
+				  {# <input type="text" id="custom_address" /> #}
+				{# </div> #}
+			{# </form> #}
+		{# </div> #}
 
 	{# <div data-role="footer" data-position="fixed" class=""> #}
 		{# <div data-role="navbar"> #}
@@ -47,8 +55,17 @@
 	<script type="text/javascript">
 		//Hide latitude and longitude
 		$('#id_latitude, label[for="id_latitude"]').hide()
-		$('#id_longitude, label[for="id_longitude"]').hide()
-		$('#id_image').parent().hide()
+		$('#id_longitude').parent().hide()
+		// $('#id_image').parent().hide()
+
+		$('#fake_location').on('change', function() {
+			if ($(this).val() == 'cur') {
+				if($.cookie('userLat')) {$('#id_latitude').val($.cookie('userLat'))}  
+				if($.cookie('userLon')) {$('#id_longitude').val($.cookie('userLon'))} 
+			} else {
+				$( "#popupLocation" ).popup("open")
+			}
+		})
 
 		$('#id_description').attr('placeholder', 'Description')
 

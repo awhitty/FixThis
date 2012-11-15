@@ -5,6 +5,7 @@ class DisableCSRF(object):
 class AttachLocation(object):
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		# print request
+		print view_func
 		latitude = request.COOKIES.get('userLat','')
 		longitude = request.COOKIES.get('userLon','')
 
