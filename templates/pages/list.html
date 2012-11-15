@@ -7,8 +7,9 @@
 	</div>
 
 	<div data-role="content">
-
-		<!-- TODO: Add iScroll/pull-to-refresh support for listview -->
+		<div>
+			<p>Filter</p>
+		</div>
 		<ul data-role="listview">
 			{% if requests %}
 				{% regroup requests|dictsort:"status" by get_status_display as request_list %}
@@ -20,7 +21,7 @@
 				{% endfor %}
 			{% else %}
 				<li>
-					<h3 class="ui-li-heading">There are no requests in the database</h3>
+					<h3 class="ui-li-heading">There are no requests near you.</h3>
 				</li>
 			{% endif %}
 		</ul>

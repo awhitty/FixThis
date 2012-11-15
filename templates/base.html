@@ -25,7 +25,12 @@
 	<!-- app -->
 
 	<script type="text/javascript">
-		// if (!$.cookie('userLat')&&!$.cookie('userLon')) {
+		$(window).on('pageinit', function() {
+			if(!($.cookie('userLat')&&$.cookie('userLon'))) {
+				updateLocation();
+			}
+		}) 
+		function updateLocation() {
 			GMaps.geolocate({
 				success: function(position) {
 					$.removeCookie('userLat');
@@ -34,8 +39,11 @@
   			  		$.cookie('userLon', position.coords.longitude)
   			  		console.log("Finished locating user and set a cookie")
   				},
+  				// error: function() {
+  				// 	alert("Many features will not work without your location. Please consider enabling location services.")
+  				// }
 			})
-		// }
+		}
 	</script>
 </head> 
 <body>

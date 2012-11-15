@@ -131,9 +131,21 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 
-    'FixThis.disable.DisableCSRF',
+    'FixThis.middleware.DisableCSRF',
+    'FixThis.middleware.AttachLocation',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
 )
 
 ROOT_URLCONF = 'FixThis.urls'
@@ -147,6 +159,8 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 INSTALLED_APPS = (
     # Django's contributed apps:
@@ -171,6 +185,7 @@ INSTALLED_APPS = (
     'taggit',
     'storages',
     's3_folder_storage',
+    'debug_toolbar',
 )
 
 # A sample logging configuration. The only tangible logging

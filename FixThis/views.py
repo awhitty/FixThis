@@ -13,7 +13,7 @@ from forms import *
 # TODO: Consider using another name for requests, since "request" is already a
 # thing in Django
 
-def home(request):
+def home(request, *args, **kwargs):
 
 	if request.user.is_authenticated() or 'skip' in request.session:
 		response = {
@@ -27,12 +27,12 @@ def home(request):
 	else:
 		return redirect('login')
 
-def skipLogin(request):
+def skipLogin(request, *args, **kwargs):
 	request.session['skip'] = True
 	return redirect('home')
 
 # Taken from django.contrib.auth.views
-def login(request):
+def login(request, *args, **kwargs):
     """
     Displays the login form and handles the login action.
     """
@@ -69,7 +69,7 @@ def login(request):
     response.update(csrf(request))
     return render_to_response('pages/login.html', response)
 
-def createUser(request):
+def createUser(request, *args, **kwargs):
 	redirect_to = request.REQUEST.get('next', '')
 
 	if request.method == "POST":
@@ -95,20 +95,15 @@ def createUser(request):
 
 	return render_to_response('pages/login.html', response)
 
-def listRequests(request):
-	try:
-		latitude = request.COOKIES['userLat']
-		longitude = request.COOKIES['userLon']
-	except:
-		# this is where we could try to find the user's location by IP address
-		# or last known location? privacy setting for this would be good too
-		latitude = 30
-		longitude = 30
+def listRequests(request, *args, **kwargs):
+	# print request
+	latitude = kwargs.get('latitude')
+	longitude = kwargs.get('longitude')
 
-	if latitude:
+	if latitude and longitude:
 		requests = Request.objects.nearby(latitude, longitude, 2)
 	else:
-		requests = Request.objects.all()
+		requests = None
 
 	response = {
 		'request': request, 
@@ -119,7 +114,7 @@ def listRequests(request):
 
 	return render_to_response('pages/list.html', response)
 
-def mapRequests(request):
+def mapRequests(request, *args, **kwargs):
 	try:
 		latitude = request.COOKIES.get('userLat', '')
 		longitude = request.COOKIES.get('userLon', '')
@@ -140,7 +135,7 @@ def mapRequests(request):
 
 	return render_to_response('pages/map.html', response)
 
-def detailRequest(request, request_id):
+def detailRequest(request, request_id, *args, **kwargs):
 	try:
 		latitude = request.COOKIES['userLat']
 		longitude = request.COOKIES['userLon']
@@ -161,7 +156,7 @@ def detailRequest(request, request_id):
 
 	return render_to_response('pages/detail.html', response)
 
-def addRequest(request):
+def addRequest(request, *args, **kwargs):
 	if request.method == 'GET':
 		form = SubmitForm()
 	else:
@@ -185,7 +180,7 @@ def addRequest(request):
 	response.update(csrf(request))
 	return render_to_response('pages/submit.html', response)
 
-def previewImage(request):
+def previewImage(request, *args, **kwargs):
 	if request.method == 'POST':
 
 		return HttpResponse("Good request")
@@ -193,7 +188,7 @@ def previewImage(request):
 		return "Bad request!"
 
 # @login_required
-def settingsPage(request):
+def settingsPage(request, *args, **kwargs):
 	profile, created = Profile.objects.get_or_create(user=request.user)
 
 	return update_object(request,
@@ -201,7 +196,7 @@ def settingsPage(request):
                         object_id=profile.id,
                         template_name='pages/settings.html')
 
-def updateRequestStatus(request, request_id):
+def updateRequestStatus(request, request_id, *args, **kwargs):
 	fixthis_request = get_object_or_404(Request, pk=request_id)
 	if request.method == 'POST':
 		status = request.POST.get('status','')
@@ -219,7 +214,7 @@ def updateRequestStatus(request, request_id):
 
 	return HttpResponse("Success!")
 
-def myfixthis(request):
+def myfixthis(request, *args, **kwargs):
 	submitted_requests = Request.objects.filter(submitted_user=request.user)
 	assigned_requests = Request.objects.filter(assigned_user=request.user)
 
