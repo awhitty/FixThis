@@ -34,6 +34,14 @@ class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile
 		exclude = ('user')
+		
+	subscribed_tags = forms.MultipleChoiceField(
+		choices=( (x.name, x.name) for x in Request.tags.most_common()),
+		widget = forms.widgets.SelectMultiple(
+			attrs = {
+				#'data-native-menu': 'false',
+			}),
+		)
 
 class SlimUserCreationForm(UserCreationForm):
 	username = forms.RegexField(
