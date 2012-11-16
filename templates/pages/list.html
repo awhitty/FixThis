@@ -7,9 +7,6 @@
 	</div>
 
 	<div data-role="content">
-		<div>
-			<p>Filter</p>
-		</div>
 		<ul data-role="listview">
 			{% if requests %}
 				{% regroup requests|dictsort:"status" by get_status_display as request_list %}

@@ -1,47 +1,56 @@
 {% extends "base.html" %}
+{% load thumbnail places %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Map</h1>
 		<a href="/" data-direction="reverse" data-transition="flow"><i class="icon-th"></i></a>
 		<a href="{% url add-request %}" data-transition="slidedown"><i class="icon-plus"></i> Submit</a>
 	</div>
-
 	<div id="map">
 	</div>
 	<script>
+  $(document).on('pageshow', function() {
+  var latitude = $.cookie('userLat');
+  var longitude = $.cookie('userLon');
+
 	 var map = new GMaps({
     		div: '#map',
-    		lat: -12.043333,
-    		lng: -77.028333,
+    		lat: latitude,
+    		lng: longitude,
     		width: $('body').width(),
     		height: '430px',
 	 });
+
+   var c = map.addMarker({
+    lat: latitude,
+    lng: longitude,
+   })
 
    {% for req in requests %}
     map.addMarker({
       lat: {{ req.latitude }},
       lng: {{ req.longitude }},
-      infoWindow: {
-        content: '<img src="{{ req.image.url }}" height="200" /><p>{{ req.description }}</p>'
+      {% thumbnail req.image "60x60" crop="center" as im %}
+        icon: '{{ im.url|safe }}',
+      {% empty %}
+        icon: '{{ req.image.url }}',
+    {% endthumbnail %}
+      click: function(e) {
+        $('#popup-{{ req.id }}').popup("open")
       }
     });
    {% endfor %}
-  
-	 GMaps.geolocate({
-    		success: function(position) {
-    		  map.setCenter(position.coords.latitude, position.coords.longitude);
-    		  console.log("Finished locating user")
-    		},
-    		error: function(error) {
-    		  console.log("User couldn't be located")
-    		},
-    		not_supported: function() {
-    		  console.log("User doesn't have geolocation")
-    		},
-    		always: function() {
-    		  console.log("Finished geolocation bizness")
-    		}
-	 });
+   })
 	</script>
+  {% for req in requests %}
+    <div id="popup-{{ req.id }}" data-role="popup" data-theme="a" data-overlay-theme="a">
+      <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+          <li data-theme="a">{{ req.description }}</li>
+          <li data-theme="a">Status: {{ req.get_status_display }}</li>
+          <li data-theme="a">{% distance_to latitude longitude req.latitude req.longitude %} from you</li>
+          <li data-theme="b"><a href="{% url detail-request req.id %}">More info</a></li>
+        </ul>
+    </div>
+  {% endfor %}
 	{% include "includes/list-map-footer.html" %}
 {% endblock content %}

@@ -120,16 +120,12 @@ def listRequests(request, *args, **kwargs):
 	return render_to_response('pages/list.html', response)
 
 def mapRequests(request, *args, **kwargs):
-	try:
-		latitude = request.COOKIES.get('userLat', '')
-		longitude = request.COOKIES.get('userLon', '')
-	except:
-		pass
+	latitude, longitude = getLocation(request)
 
-	if latitude:
+	if latitude and longitude:
 		requests = Request.objects.nearby(latitude, longitude, 2)
 	else:
-		requests = Request.objects.all()
+		requests = None
 
 	response = {
 		'request': request, 
