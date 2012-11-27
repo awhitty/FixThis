@@ -11,8 +11,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'FixThis.views.home', name='home'),
-    url(r'^login/$', 'FixThis.views.login', {'template': 'login.html'}, name='login'),
-    url(r'^login/b/$', 'FixThis.views.login', {'template': 'login_b.html'}),
+    url(r'^login/$', 'FixThis.views.login', {'template': 'pages/login.html'}, name='login'),
+    url(r'^login/b/$', 'FixThis.views.login', {'template': 'pages/login_b.html'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^register/$', 'FixThis.views.createUser', name='register'),
     url(r'^skip/$', 'FixThis.views.skipLogin', name='skip'),
