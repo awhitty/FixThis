@@ -26,42 +26,42 @@
 	<!-- app -->
 
 	<script type="text/javascript">
-		var latitude, longitude;
+		// var latitude, longitude;
 
-		$(window).on('pageinit', function() {
-			if(!($.cookie('userLat')&&$.cookie('userLon'))) {
-				updateLocation();
-			}
+		// $(window).on('pageinit', function() {
+		// 	if(!($.cookie('userLat')&&$.cookie('userLon'))) {
+		// 		updateLocation();
+		// 	}
 
-			var nowDate, cookieDate;
-			nowDate = new Date();
-			if ($.cookie('locDate')) {
-				cookieDate = new Date($.cookie('locDate'));
-			}
+		// 	var nowDate, cookieDate;
+		// 	nowDate = new Date();
+		// 	if ($.cookie('locDate')) {
+		// 		cookieDate = new Date($.cookie('locDate'));
+		// 	}
 
-			if (!cookieDate || nowDate - cookieDate > 1000000) {
-				$.cookie('locDate', nowDate.toUTCString());
-				updateLocation();
-				// alert('updating location')
-			}
+		// 	if (!cookieDate || nowDate - cookieDate > 1000000) {
+		// 		$.cookie('locDate', nowDate.toUTCString());
+		// 		updateLocation();
+		// 		// alert('updating location')
+		// 	}
 
 
-		}) 
-		function updateLocation() {
-			GMaps.geolocate({
-				success: function(position) {
-					$.removeCookie('userLat');
-					$.removeCookie('userLon');
+		// }) 
+		// function updateLocation() {
+		// 	GMaps.geolocate({
+		// 		success: function(position) {
+		// 			$.removeCookie('userLat');
+		// 			$.removeCookie('userLon');
 
-  			  		$.cookie('userLat', position.coords.latitude)
-  			  		$.cookie('userLon', position.coords.longitude)
+  // 			  		$.cookie('userLat', position.coords.latitude)
+  // 			  		$.cookie('userLon', position.coords.longitude)
 
-  			  		latitude = position.coords.latitude;
-  			  		longitude = position.coords.longitude;
-  			  		console.log("Finished locating user and set a cookie")
-  				},
-			})
-		}
+  // 			  		latitude = position.coords.latitude;
+  // 			  		longitude = position.coords.longitude;
+  // 			  		console.log("Finished locating user and set a cookie")
+  // 				},
+		// 	})
+		// }
 	</script>
 </head> 
 <body>

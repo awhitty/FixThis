@@ -1,6 +1,7 @@
 # from django.contrib.gis.geoip import GeoIP
 
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.context_processors import csrf
 from django.contrib import messages
@@ -20,11 +21,12 @@ def getLocation(request):
 
 
 def home(request, *args, **kwargs):
+	messages.add_message(request, messages.INFO, "Please fix the errors")
 
 	if request.user.is_authenticated() or 'skip' in request.session:
-		response = {
+		response = RequestContext(request, {
 			'request': request,
-		}
+		})
 
 		if 'skip' in request.session:
 			response['login_form'] = SlimAuthenticationForm
@@ -66,11 +68,11 @@ def login(request, *args, **kwargs):
 
     request.session.set_test_cookie()
 
-    response = {
+    response = RequestContext(request, {
     	'request': request,
         'login_form': form,
 		'registration_form': SlimUserCreationForm
-    }
+    })
 
     response.update(csrf(request))
     return render_to_response('pages/login.html', response)
@@ -103,11 +105,11 @@ def login(request, *args, **kwargs):
 
     request.session.set_test_cookie()
 
-    response = {
+    response = RequestContext(request, {
     	'request': request,
         'login_form': form,
 		'registration_form': SlimUserCreationForm
-    }
+    })
 
     template = kwargs.pop('template', None)
 
@@ -132,11 +134,11 @@ def createUser(request, *args, **kwargs):
 
 	request.session.set_test_cookie()
 
-	response = {
+	response = RequestContext(request, {
     	'request': request,
         'login_form': SlimAuthenticationForm,
 		'registration_form': form
-    }
+    })
 
 	return render_to_response('pages/login.html', response)
 
@@ -149,12 +151,12 @@ def listRequests(request, *args, **kwargs):
 	else:
 		requests = None
 
-	response = {
+	response = RequestContext(request, {
 		'request': request, 
 		'requests': requests,
 		'latitude': latitude,
 		'longitude': longitude,
-	}
+	})
 
 	return render_to_response('pages/list.html', response)
 
@@ -166,12 +168,12 @@ def mapRequests(request, *args, **kwargs):
 	else:
 		requests = None
 
-	response = {
+	response = RequestContext(request, {
 		'request': request, 
 		'requests': requests,
 		'latitude': latitude,
 		'longitude': longitude,
-	}
+	})
 
 	return render_to_response('pages/map.html', response)
 
@@ -187,12 +189,12 @@ def detailRequest(request, request_id, *args, **kwargs):
 
 
 
-	response = {
+	response = RequestContext(request, {
 		'request': request, 
 		'fix': fixthis_request,
 		'latitude': latitude,
 		'longitude': longitude,
-	}
+	})
 
 	return render_to_response('pages/detail.html', response)
 
@@ -212,10 +214,10 @@ def addRequest(request, *args, **kwargs):
 			messages.error(request, "Please fix the errors")
 
 
-	response = {
+	response = RequestContext(request, {
 		'request': request,
 		'form': form,
-	}
+	})
 
 	response.update(csrf(request))
 	return render_to_response('pages/submit.html', response)
@@ -261,12 +263,12 @@ def myfixthis(request, *args, **kwargs):
 	submitted_requests = Request.objects.filter(submitted_user=request.user)
 	assigned_requests = Request.objects.filter(assigned_user=request.user)
 
-	response = {
+	response = RequestContext(request, {
 		'request': request,
 		'submitted': submitted_requests,
 		'assigned': assigned_requests,
 		'subscribed': subscribed_requests,
-	}
+	})
 
 	return render_to_response('pages/myfixthis.html', response)
 
