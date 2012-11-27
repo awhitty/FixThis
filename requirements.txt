@@ -3,6 +3,7 @@ Markdown==2.2.1
 PIL==1.1.7
 South==0.7.6
 boto==2.6.0
+django-athumb==2.0
 -e git://github.com/django-debug-toolbar/django-debug-toolbar.git@aeb45f2fea083fb182f5fd33e7c4980780b1ea81#egg=django_debug_toolbar-dev
 django-pylibmc-sasl==0.2.4
 -e git://github.com/jamstooks/django-s3-folder-storage.git@fd959a99b3a62b64d9e73534538efeb016fd4dc7#egg=django_s3_folder_storage-dev
@@ -13,5 +14,4 @@ gunicorn==0.15.0
 psycopg2==2.4.5
 pylibmc==1.2.3
 python-memcached==1.48
--e git://github.com/sorl/sorl-thumbnail.git@cf1828ab84994d0df71481061a2d088e2ed78ce4#egg=sorl_thumbnail-dev
 wsgiref==0.1.2

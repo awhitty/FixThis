@@ -75,6 +75,45 @@ def login(request, *args, **kwargs):
     response.update(csrf(request))
     return render_to_response('pages/login.html', response)
 
+def login(request, *args, **kwargs):
+    """
+    Displays the login form and handles the login action.
+    """
+    redirect_to = request.REQUEST.get('next', '')
+
+    if request.method == "POST":
+        form = SlimAuthenticationForm(data=request.POST)
+        if form.is_valid():
+			print "valid!"
+            # # Use default setting if redirect_to is empty
+            # # Heavier security check -- don't allow redirection to a different
+            # # host.
+            # if netloc and netloc != request.get_host():
+            #     redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+
+            # Okay, security checks complete. Log the user in.
+			auth_login(request, form.get_user())
+
+			if request.session.test_cookie_worked():
+				request.session.delete_test_cookie()
+
+			return redirect(redirect_to)
+    else:
+        form = SlimAuthenticationForm(request)
+
+    request.session.set_test_cookie()
+
+    response = {
+    	'request': request,
+        'login_form': form,
+		'registration_form': SlimUserCreationForm
+    }
+
+    template = kwargs.pop('template', None)
+
+    response.update(csrf(request))
+    return render_to_response(template, response)
+
 def createUser(request, *args, **kwargs):
 	redirect_to = request.REQUEST.get('next', '')
 
