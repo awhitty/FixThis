@@ -30,11 +30,7 @@
     map.addMarker({
       lat: {{ req.latitude }},
       lng: {{ req.longitude }},
-      {% thumbnail req.image "60x60" crop="center" as im %}
-        icon: '{{ im.url|safe }}',
-      {% empty %}
-        icon: '{{ req.image.url }}',
-    {% endthumbnail %}
+        icon: '{% thumbnail req.image '200x200' %}',
       click: function(e) {
         $('#popup-{{ req.id }}').popup("open")
       }
