@@ -82,6 +82,7 @@
    			if (prev_url) {
    				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
    			}
+   			updateLocation()
 		});
 
 		$('#id_image').on('change', function () {

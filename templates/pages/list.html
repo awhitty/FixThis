@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load thumbnail places %}
+{% load places %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>List</h1>
@@ -7,12 +7,9 @@
 	</div>
 
 	<div data-role="content">
-		<div>
-			<p>Filter</p>
-		</div>
 		<ul data-role="listview">
 			{% if requests %}
-				{% regroup requests|dictsort:"status" by get_status_display as request_list %}
+				{% regroup requests|dictsort:"status"|dictsort:"urgency" by get_status_display as request_list %}
 				{% for status in request_list %}
 					<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">{{ status.grouper }} FixThis requests</li>
 					{% for item in status.list %}

@@ -26,29 +26,46 @@
 	<!-- app -->
 
 	<script type="text/javascript">
+		var latitude, longitude;
+
 		$(window).on('pageinit', function() {
 			if(!($.cookie('userLat')&&$.cookie('userLon'))) {
 				updateLocation();
 			}
+
+			var nowDate, cookieDate;
+			nowDate = new Date();
+			if ($.cookie('locDate')) {
+				cookieDate = new Date($.cookie('locDate'));
+			}
+
+			if (!cookieDate || nowDate - cookieDate > 1000000) {
+				$.cookie('locDate', nowDate.toUTCString());
+				updateLocation();
+				// alert('updating location')
+			}
+
+
 		}) 
 		function updateLocation() {
 			GMaps.geolocate({
 				success: function(position) {
 					$.removeCookie('userLat');
 					$.removeCookie('userLon');
+
   			  		$.cookie('userLat', position.coords.latitude)
   			  		$.cookie('userLon', position.coords.longitude)
+
+  			  		latitude = position.coords.latitude;
+  			  		longitude = position.coords.longitude;
   			  		console.log("Finished locating user and set a cookie")
   				},
-  				// error: function() {
-  				// 	alert("Many features will not work without your location. Please consider enabling location services.")
-  				// }
 			})
 		}
 	</script>
 </head> 
 <body>
-	<div id="{% block id %}{% endblock id %}" data-role="page">
+	<div id="{% block id %}{% endblock id %}" data-role="page" data-url="{{ request.get_full_path }}">
 		{% if messages %}
 			<ul class="messages">
     		{% for message in messages %}

@@ -22,12 +22,36 @@ DATABASES = {
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+def get_cache():
+  import os
+  try:
+    os.environ['MEMCACHE_SERVERS'] = os.environ['MEMCACHIER_SERVERS']
+    os.environ['MEMCACHE_USERNAME'] = os.environ['MEMCACHIER_USERNAME']
+    os.environ['MEMCACHE_PASSWORD'] = os.environ['MEMCACHIER_PASSWORD']
+    return {
+      'default': {
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+        'LOCATION': os.environ['MEMCACHIER_SERVERS'],
+        'TIMEOUT': 500,
+        'BINARY': True,
+      }
     }
-}
+  except:
+    return {
+      'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': '127.0.0.1:11211',
+      }
+    }
+
+CACHES = get_cache()
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -85,6 +109,8 @@ MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
 STATIC_ROOT = "/%s/" % STATIC_S3_PATH
 STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+MEDIA_CACHE_BUSTER = 'Pow'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -145,6 +171,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
+    'django.core.context_processors.request'
     "django.contrib.messages.context_processors.messages"
 )
 
@@ -180,12 +207,13 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     'places',
-    'sorl.thumbnail',
+    # 'sorl.thumbnail',
     'html5',
     'taggit',
     'storages',
     's3_folder_storage',
-    'debug_toolbar',
+    # 'debug_toolbar',
+    'athumb',
 )
 
 # A sample logging configuration. The only tangible logging

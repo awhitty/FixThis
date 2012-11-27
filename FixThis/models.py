@@ -8,8 +8,20 @@ from places.utils import distance
 
 from taggit.managers import TaggableManager
 
+from athumb.fields import ImageWithThumbsField
+from athumb.backends.s3boto import S3BotoStorage_AllPublic
+
+PUBLIC_MEDIA_BUCKET = S3BotoStorage_AllPublic(bucket='fixthis-storage')
+
+
 class Request(models.Model):
-	image = models.ImageField(upload_to="images/")
+	image = ImageWithThumbsField(upload_to="media/images/requests/", 
+		thumbs=(
+            ('200x200', {'size': (200, 200), 'crop': True}),
+            ('large', {'size': (800, 600),})
+        ),
+		storage=PUBLIC_MEDIA_BUCKET
+	)
 	timestamp = models.DateTimeField(default=datetime.datetime.now())
 	description = models.TextField()
 	urgency = models.IntegerField()

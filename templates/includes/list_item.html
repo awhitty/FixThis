@@ -1,11 +1,7 @@
 {% load places thumbnail %}
 <li>
 	<a href="{% url detail-request fix.id %}" class="ui-link-inherit" data-transition="slide">
-		{% thumbnail fix.image "200x200" crop="center" as im %}
-   			<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="ui-li-thumb">
-   		{% empty %}
-   			<img src="{{ fix.image.url }}" alt="thumbnail">
-		{% endthumbnail %}
+   		<img src="{% thumbnail fix.image '200x200' %}" alt="thumbnail">	
 		<h3 class="ui-li-heading">{{ fix.description|truncatewords:5 }}</h3>
 		{% if distance %}
 			<p class="muted ui-li-desc">{% distance_to latitude longitude fix.latitude fix.longitude %} miles from you</p>
