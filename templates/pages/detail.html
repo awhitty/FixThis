@@ -4,7 +4,7 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
-		<a href="/" data-transition-direction="reverse" data-icon="arrow-l">Back</a>
+		<a href="{% url list-requests %}" data-transition-direction="reverse" data-icon="arrow-l">Back</a>
 		<div id="status-select" class="ui-btn-right">
 			<select name="select-choice-4" id="select-choice-4" data-theme="b" tabindex="-1">
 				<option {% if fix.status = 0 %}selected="selected"{% endif %} id="open" value="0">Open</option>
