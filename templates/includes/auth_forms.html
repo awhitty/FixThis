@@ -1,9 +1,9 @@
 <form id="login-form" action="{% url login %}?next=/" method="post" data-role="popup" data-overlay-theme="b" data-theme="a" class="ui-body ui-body-a ui-corner-all ui-hide-label">
 	{{ login_form.as_p }}
-	<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false">Log in</button>
+	<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false" onClick="_gaq.push(['_trackEvent', 'Authentication', 'Login']);">Log in</button>
 </form>
 			
 <form id="register-form" action="{% url register %}" method="post" data-theme="a" data-overlay-theme="b" data-role="popup" class="ui-body ui-body-a ui-corner-all ui-hide-label">
 	{{ registration_form.as_p }}
-	<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false">Register</button>
+	<button type="submit" data-theme="b" class="ui-btn-hidden" data-disabled="false" onClick="_gaq.push(['_trackEvent', 'Authentication', 'Register']);">Register</button>
 </form>

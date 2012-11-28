@@ -17,6 +17,7 @@ PUBLIC_MEDIA_BUCKET = S3BotoStorage_AllPublic(bucket='fixthis-storage')
 class Request(models.Model):
 	image = ImageWithThumbsField(upload_to="media/images/requests/", 
 		thumbs=(
+			('small', {'size': (70, 70), 'crop': True}),
             ('200x200', {'size': (200, 200), 'crop': True}),
             ('large', {'size': (800, 600),})
         ),

@@ -3,7 +3,8 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Submit</h1>
-		<a href="/" data-direction="reverse" data-transition="pop">Cancel</a>
+		<a href="/" {% if back %}{% else %}data-rel="back"{% endif %}>Cancel</a>
+		<a href="/" data-direction="reverse" data-transition="pop">Dashboard</a>
 	</div>
 
 	<div data-role="content">
@@ -32,7 +33,9 @@
         			<input type="text" name="longitude" value="{{ longitude }}" style="display: none;">
         		{% else %}
         		<li class="fieldWrapper {% if field.errors %}errors{% endif %}" data-role="fieldcontain">
-        			{# {{ field.errors }} #}
+        			{% for error in field.errors %}
+        				<p class="error" style="color: #9d261d;">{{ error }}</p>
+        			{% endfor %}
         			{{ field.label_tag }} {{ field }}
         		</li>
     			{% endif %}
@@ -40,26 +43,10 @@
     			{% endif %}
     			{% endfor %}
     			</ul>
-				<input id="submit-button" type="submit" value="Submit" data-theme="b" />
+				<input id="submit-button" type="submit" value="Submit" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Requests', 'Submit',]);" />
 			</form>
 		</div>
 	</div>
-	{# <div data-role="popup" id="popupLocation" data-theme="a"> #}
-			{# <form> #}
-				{# <div style="padding:10px 20px;"> #}
-				  {# <input type="text" id="custom_address" /> #}
-				{# </div> #}
-			{# </form> #}
-		{# </div> #}
-
-	{# <div data-role="footer" data-position="fixed" class=""> #}
-		{# <div data-role="navbar"> #}
-			{# <ul> #}
-				{# <li><a href="#" data-rel="back" data-theme="c"><i class="icon-remove"></i> Cancel</a></li> #}
-				{# <li><a href="#" data-theme="b"><i class="icon-plus"></i> Submit</a></li> #}
-			{# </ul> #}
-		{# </div> #}
-	{# </div> #}
 	<script type="text/javascript">
 		$('#id_description').attr('placeholder', 'Description')
 
@@ -91,11 +78,5 @@
 			}
 			reader.readAsDataURL(file);
 		})
-		// $('#submit-button').click(function(e) {
-		// 	$('#submit-form').ajaxSubmit(function(d) {
-		// 		alert($('#submit-form', d).html())
-		// 		$(this).html()
-		// 	})
-		// })
 	</script>
 {% endblock content %}

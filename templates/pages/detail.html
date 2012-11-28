@@ -4,7 +4,7 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
-		<a href="/" data-rel="back" data-icon="arrow-l">Back</a>
+		<a href="/" data-transition-direction="reverse" data-icon="arrow-l">Back</a>
 		<div id="status-select" class="ui-btn-right">
 			<select name="select-choice-4" id="select-choice-4" data-theme="b" tabindex="-1">
 				<option {% if fix.status = 0 %}selected="selected"{% endif %} id="open" value="0">Open</option>
@@ -66,11 +66,16 @@
 
 		$('#detail').live('pageshow', function() {
 			window.swipe{{ fix.id }} = new Swipe(
-				document.getElementById('{{ fix.id }}')
+				document.getElementById('{{ fix.id }}'), {
+					callback: function() {
+						_gaq.push(['_trackEvent', 'Requests', 'Swipe Detail View']);
+					}
+				}
 			);
 		})
 
 		$('select').on('change', function(e) {
+			_gaq.push(['_trackEvent', 'Requests', 'Update Status', $(this).val()]);
 			$.post('{% url update-request fix.id %}', { 'status': $(this).val(), }, function(data){
 				alert('Successfully updated status.')
 			})

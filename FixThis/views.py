@@ -46,19 +46,19 @@ def setLocation(request, *args, **kwargs):
 	lon = request.POST.get('longitude', None)
 	place = request.POST.get('place', None)
 
+	next = request.GET.get('next', '/')
+
 	if lat and lon:
 		request.session['latitude'] = lat
 		request.session['longitude'] = lon
 		request.session['place'] = place
 		messages.success(request, "Successfully updated your location to %s" % place)
 
-		if request.GET.get('next', None):
-			return redirect(request.GET.get('next', None))
-		else:
-			return redirect('home')
+		return redirect(next)
 
 	response = RequestContext(request, {
-			'request': request,
+		'request': request,
+		'next': next,
 	})
 
 	return render_to_response('pages/location.html', response)
@@ -106,6 +106,7 @@ def createUser(request, *args, **kwargs):
 			auth_login(request, new_user)
 			return redirect('home')
 
+		messages.error(request, "Please fix the errors and try again.")
 	else:
 		form = SlimAuthenticationForm(request)
 
@@ -177,6 +178,8 @@ def detailRequest(request, request_id, *args, **kwargs):
 def addRequest(request, *args, **kwargs):
 	latitude, longitude, place = getLocation(request)
 
+	back = None
+
 	if not latitude and not longitude:
 		return redirect('location')
 
@@ -185,13 +188,17 @@ def addRequest(request, *args, **kwargs):
 	else:
 		# print request.POST
 		form = SubmitForm(request.POST, request.FILES)
+		print form
 		if form.is_valid():
 		    req = form.save()
 		    if request.user.is_authenticated():
 		    	req.submitted_user = request.user
-		    	req.save()
-		    	return redirect('detail-request', req.id)
+
+	    		req.save()
+	    		return redirect('detail-request', req.id)
+
 		else:
+			back = True
 			messages.error(request, "Please fix the errors")
 
 
@@ -201,6 +208,7 @@ def addRequest(request, *args, **kwargs):
 		'latitude': latitude,
 		'longitude': longitude,
 		'place': place,
+		'back': back
 	})
 
 	response.update(csrf(request))

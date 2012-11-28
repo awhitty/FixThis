@@ -2,7 +2,7 @@
 {% block id %}set-location{% endblock id %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
-		<a href="#" data-rel="back">Cancel</a>
+		<a href="/" data-direction="reverse" data-transition="flow">Cancel</a>
 		<h1>Set Location</h1>
 	</div>
 	<div id="location-map"></div>
@@ -36,6 +36,7 @@
 
 			  events: {
 			    click: function(){
+			    	$.mobile.loading( 'show' )
 			    	useCurLocation()
 			    }
 			  }
@@ -58,13 +59,16 @@
 			    }
 			  }
 			});
+
 			function useCurLocation() {
 				GMaps.geolocate({
 				  success: function(position) {
 				  	setLatLon(position.coords.latitude, position.coords.longitude)
+				  	$.mobile.loading( 'hide' )
 				  },
 				  error: function(error) {
 				    alert('Geolocation failed: '+error.message);
+				    $.mobile.loading( 'hide' )
 				  },
 				});
 			}
@@ -72,6 +76,7 @@
 			function searchLocation() {
 				$('#locationPopup').popup('open')
 				$('#search').click(function(e) {
+					$.mobile.loading( 'show' )
 					$('#locationPopup').popup('close')
 					GMaps.geocode({
 					  address: $('#address').val(),
@@ -88,6 +93,7 @@
 							$('#latitude').val(latlng.lat());
 				    		$('#longitude').val(latlng.lng());
 				    		$('#place').val(results[0].formatted_address);
+				    		$.mobile.loading( 'hide' )
 					    }
 					  }
 					});
@@ -120,11 +126,11 @@
 		</script>
 
 		<div data-role="content">
-			<form action="{% url location %}?next={{ request.META.HTTP_REFERER }}" method="post">
+			<form action="{% url location %}?next={{ next }}" method="post" data-ajax="false">
 				<input type="text" name="place" id="place" value="" readonly placeholder="Place" >
 				<input type="text" name="latitude" id="latitude" value="" readonly placeholder="Latitude" style="display:none;">
 				<input type="text" name="longitude" id="longitude" value="" readonly placeholder="Longitude" style="display:none;">
-				<input type="submit" value="Continue" data-theme="b">
+				<input type="submit" value="Continue" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Location', 'Set Location']);">
 			</form>
 		</div>
 
