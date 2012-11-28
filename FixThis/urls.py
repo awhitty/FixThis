@@ -16,13 +16,14 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^register/$', 'FixThis.views.createUser', name='register'),
     url(r'^skip/$', 'FixThis.views.skipLogin', name='skip'),
+
     url(r'^settings/$', 'FixThis.views.settingsPage', name='settings'),
     url(r'^myfixthis/$', 'FixThis.views.myfixthis', name='myfixthis'),
 
+    url(r'^location/$', 'FixThis.views.setLocation', name='location'),
+
     # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),
-    url(r'^requests/preview/$', 'FixThis.views.previewImage', name='preview-image'),
-
 
     url(r'^requests/search/$', 'FixThis.views.home', name='search-request'),
     url(r'^requests/detail/(?P<request_id>\d+)/$', 'FixThis.views.detailRequest', name='detail-request'),

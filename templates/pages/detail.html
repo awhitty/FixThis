@@ -22,13 +22,13 @@
 	</div>
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true">
-			{# <li class="ui-grid-a"> #}
-				{# <p class="muted ui-block-a">Status</p> #}
-				{# <p class="ui-block-b"><strong>{{ fix.get_status_display }}</strong></p> #}
-			{# </li> #}
 			<li>
 				<h3>Description</h3>
 				{{ fix.description|markdown }}
+			</li>
+			<li>
+				<h3>Place</h3>
+				<p>{{ fix.location }}</p>
 			</li>
 			<li>
 				<h3>Tags</h3>
@@ -72,7 +72,7 @@
 
 		$('select').on('change', function(e) {
 			$.post('{% url update-request fix.id %}', { 'status': $(this).val(), }, function(data){
-				
+				alert('Successfully updated status.')
 			})
 		})
 	</script>

@@ -20,54 +20,11 @@
 	<script type="text/javascript" src="https://raw.github.com/HPNeo/gmaps/master/gmaps.js"></script>
 	<script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
 	<script type="text/javascript" src="https://raw.github.com/bradbirdsall/Swipe/master/swipe.min.js"></script>
-	{# <script src="http://documentcloud.github.com/underscore/underscore.js"></script> #}
-	{# <script src="http://backbonejs.org/backbone.js"></script> #}
-
-	<!-- app -->
-
-	<script type="text/javascript">
-		// var latitude, longitude;
-
-		// $(window).on('pageinit', function() {
-		// 	if(!($.cookie('userLat')&&$.cookie('userLon'))) {
-		// 		updateLocation();
-		// 	}
-
-		// 	var nowDate, cookieDate;
-		// 	nowDate = new Date();
-		// 	if ($.cookie('locDate')) {
-		// 		cookieDate = new Date($.cookie('locDate'));
-		// 	}
-
-		// 	if (!cookieDate || nowDate - cookieDate > 1000000) {
-		// 		$.cookie('locDate', nowDate.toUTCString());
-		// 		updateLocation();
-		// 		// alert('updating location')
-		// 	}
-
-
-		// }) 
-		// function updateLocation() {
-		// 	GMaps.geolocate({
-		// 		success: function(position) {
-		// 			$.removeCookie('userLat');
-		// 			$.removeCookie('userLon');
-
-  // 			  		$.cookie('userLat', position.coords.latitude)
-  // 			  		$.cookie('userLon', position.coords.longitude)
-
-  // 			  		latitude = position.coords.latitude;
-  // 			  		longitude = position.coords.longitude;
-  // 			  		console.log("Finished locating user and set a cookie")
-  // 				},
-		// 	})
-		// }
-	</script>
 </head> 
 <body>
 	<div id="{% block id %}{% endblock id %}" data-role="page" data-url="{{ request.get_full_path }}">
 		{% if messages %}
-			<ul class="messages">
+			<ul class="messages" data-role="listview">
     		{% for message in messages %}
     			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     		{% endfor %}
@@ -95,17 +52,15 @@
 	</script>
     
     <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36609560-1']);
-    _gaq.push(['_trackPageview']);
-    
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-</script>
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-36609560-1']);
+	    _gaq.push(['_trackPageview']);
+	    
+	    (function() {
+	      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	    })();
+	</script>
 </body>
 </html>

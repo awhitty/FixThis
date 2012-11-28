@@ -14,15 +14,17 @@ from forms import *
 # TODO: Consider using another name for requests, since "request" is already a
 # thing in Django
 def getLocation(request):
-	latitude = request.COOKIES.get('userLat','')
-	longitude = request.COOKIES.get('userLon','')
 
-	return latitude, longitude
+	latitude = request.session.get('latitude','')
+	longitude = request.session.get('longitude','')
+	place = request.session.get('place','')
 
+	if not latitude:
+		messages.info(request, "Please set your location, so we can determine what's in your area.")
+
+	return latitude, longitude, place
 
 def home(request, *args, **kwargs):
-	messages.add_message(request, messages.INFO, "Please fix the errors")
-
 	if request.user.is_authenticated() or 'skip' in request.session:
 		response = RequestContext(request, {
 			'request': request,
@@ -39,6 +41,28 @@ def skipLogin(request, *args, **kwargs):
 	request.session['skip'] = True
 	return redirect('home')
 
+def setLocation(request, *args, **kwargs):
+	lat = request.POST.get('latitude', None)
+	lon = request.POST.get('longitude', None)
+	place = request.POST.get('place', None)
+
+	if lat and lon:
+		request.session['latitude'] = lat
+		request.session['longitude'] = lon
+		request.session['place'] = place
+		messages.success(request, "Successfully updated your location to %s" % place)
+
+		if request.GET.get('next', None):
+			return redirect(request.GET.get('next', None))
+		else:
+			return redirect('home')
+
+	response = RequestContext(request, {
+			'request': request,
+	})
+
+	return render_to_response('pages/location.html', response)
+
 # Taken from django.contrib.auth.views
 def login(request, *args, **kwargs):
     """
@@ -49,14 +73,6 @@ def login(request, *args, **kwargs):
     if request.method == "POST":
         form = SlimAuthenticationForm(data=request.POST)
         if form.is_valid():
-			print "valid!"
-            # # Use default setting if redirect_to is empty
-            # # Heavier security check -- don't allow redirection to a different
-            # # host.
-            # if netloc and netloc != request.get_host():
-            #     redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
-
-            # Okay, security checks complete. Log the user in.
 			auth_login(request, form.get_user())
 
 			if request.session.test_cookie_worked():
@@ -76,45 +92,6 @@ def login(request, *args, **kwargs):
 
     response.update(csrf(request))
     return render_to_response('pages/login.html', response)
-
-def login(request, *args, **kwargs):
-    """
-    Displays the login form and handles the login action.
-    """
-    redirect_to = request.REQUEST.get('next', '')
-
-    if request.method == "POST":
-        form = SlimAuthenticationForm(data=request.POST)
-        if form.is_valid():
-			print "valid!"
-            # # Use default setting if redirect_to is empty
-            # # Heavier security check -- don't allow redirection to a different
-            # # host.
-            # if netloc and netloc != request.get_host():
-            #     redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
-
-            # Okay, security checks complete. Log the user in.
-			auth_login(request, form.get_user())
-
-			if request.session.test_cookie_worked():
-				request.session.delete_test_cookie()
-
-			return redirect(redirect_to)
-    else:
-        form = SlimAuthenticationForm(request)
-
-    request.session.set_test_cookie()
-
-    response = RequestContext(request, {
-    	'request': request,
-        'login_form': form,
-		'registration_form': SlimUserCreationForm
-    })
-
-    template = kwargs.pop('template', None)
-
-    response.update(csrf(request))
-    return render_to_response(template, response)
 
 def createUser(request, *args, **kwargs):
 	redirect_to = request.REQUEST.get('next', '')
@@ -143,13 +120,13 @@ def createUser(request, *args, **kwargs):
 	return render_to_response('pages/login.html', response)
 
 def listRequests(request, *args, **kwargs):
-	# print request
-	latitude, longitude = getLocation(request)
+	latitude, longitude, place = getLocation(request)
 
 	if latitude and longitude:
-		requests = Request.objects.nearby(latitude, longitude, 2)
+		radius = request.GET.get('radius', 2)
+		requests = Request.objects.nearby(latitude, longitude, radius)
 	else:
-		requests = None
+		return redirect('location')
 
 	response = RequestContext(request, {
 		'request': request, 
@@ -161,12 +138,13 @@ def listRequests(request, *args, **kwargs):
 	return render_to_response('pages/list.html', response)
 
 def mapRequests(request, *args, **kwargs):
-	latitude, longitude = getLocation(request)
+	latitude, longitude, place = getLocation(request)
 
 	if latitude and longitude:
-		requests = Request.objects.nearby(latitude, longitude, 2)
+		radius = request.GET.get('radius', 2)
+		requests = Request.objects.nearby(latitude, longitude, radius)
 	else:
-		requests = None
+		return redirect('location')
 
 	response = RequestContext(request, {
 		'request': request, 
@@ -178,12 +156,10 @@ def mapRequests(request, *args, **kwargs):
 	return render_to_response('pages/map.html', response)
 
 def detailRequest(request, request_id, *args, **kwargs):
-	try:
-		latitude = request.COOKIES['userLat']
-		longitude = request.COOKIES['userLon']
-	except:
-		latitude = 30
-		longitude = 30
+	latitude, longitude, place = getLocation(request)
+
+	if not latitude and not longitude:
+		return redirect('location')
 
 	fixthis_request = get_object_or_404(Request, pk=request_id)
 
@@ -199,10 +175,15 @@ def detailRequest(request, request_id, *args, **kwargs):
 	return render_to_response('pages/detail.html', response)
 
 def addRequest(request, *args, **kwargs):
+	latitude, longitude, place = getLocation(request)
+
+	if not latitude and not longitude:
+		return redirect('location')
+
 	if request.method == 'GET':
 		form = SubmitForm()
 	else:
-		print request.POST
+		# print request.POST
 		form = SubmitForm(request.POST, request.FILES)
 		if form.is_valid():
 		    req = form.save()
@@ -217,19 +198,14 @@ def addRequest(request, *args, **kwargs):
 	response = RequestContext(request, {
 		'request': request,
 		'form': form,
+		'latitude': latitude,
+		'longitude': longitude,
+		'place': place,
 	})
 
 	response.update(csrf(request))
 	return render_to_response('pages/submit.html', response)
 
-def previewImage(request, *args, **kwargs):
-	if request.method == 'POST':
-
-		return HttpResponse("Good request")
-	else:
-		return "Bad request!"
-
-# @login_required
 def settingsPage(request, *args, **kwargs):
 	profile, created = Profile.objects.get_or_create(user=request.user)
 

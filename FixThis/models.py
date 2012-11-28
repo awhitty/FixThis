@@ -34,6 +34,7 @@ class Request(models.Model):
 	# These fields are required by django-places
 	latitude = models.DecimalField(max_digits=36, decimal_places=16)
 	longitude = models.DecimalField(max_digits=36, decimal_places=16)
+	location = models.CharField(blank=True, null=True, max_length=50)
 
 	objects = PlaceManager()
 	tags = TaggableManager()
@@ -50,6 +51,8 @@ class Request(models.Model):
 		return distance(self.latitude, self.longitude, lat, lon)
 
 class Profile(models.Model):
-	# default location?
+	latitude = models.DecimalField(max_digits=36, decimal_places=16, blank=True, null=True)
+	longitude = models.DecimalField(max_digits=36, decimal_places=16, blank=True, null=True)
+
 	user = models.ForeignKey(User, unique=True, default=0)
 	subscribed_tags = TaggableManager()

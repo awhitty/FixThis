@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed">
+		{% if request.user.is_authenticated %}
 		<h1>Welcome, {{ request.user }}!</h1>
+		{% else %}
+		<h1>Welcome!</h1>
+		{% endif %}
 	</div>
 
 	<div data-role="content">
@@ -14,12 +18,13 @@
 		    	    {% if request.user.is_authenticated %}
 		    	    <li><a href="{% url myfixthis %}"  class="ui-btn" data-transition="flow"><i class="icon-user"></i>My FixThis</a></li>
 		    	    {% endif %}
-		    	    <li><a href="{% url settings %}" class="ui-btn" data-transition="flip"><i class="icon-cogs"></i>Settings</a></li>
+		    	    {# <li><a href="{% url settings %}" class="ui-btn" data-transition="flip"><i class="icon-cogs"></i>Settings</a></li> #}
+		    	    <li><a href="{% url location %}"     class="ui-btn" data-transition="flow"><i class="icon-screenshot"></i>Update Location</a></li>
 		    	    {% if request.user.is_authenticated %}
 		    	    	<li><a href="{% url logout %}?next={% url home %}"	class="ui-btn" data-transition="flow"><i class="icon-signout"></i>Logout</a></li>
 		    	    {% else %}
 		    	    	<li><a href="#login-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-signin"></i>Sign in</a></li>
-		    	    	<li><a href="#register-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-key"></i>Register</a></li>
+		    	    	<li><a href="#register-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-unlock"></i>Register</a></li>
 		    	    {% endif %}
 		    	    
 		    	</ul>

@@ -15,23 +15,31 @@
 			</div>
 			<form id="submit-form" enctype="multipart/form-data" action="{% url add-request %}" method="POST" data-ajax="false">
 				{% csrf_token %}
+				<ul data-role="listview" data-inset="true">
 				{% for field in form %}
-        			<div class="fieldWrapper {% if field.errors %}errors{% endif %}" data-role="fieldcontain">
-        				{# {% if field.label = "Latitude" %} #}
-        				{# <div class="map"></div> #}
-        				{# <fieldset id="fake_location" data-role="controlgroup"> #}
-        					{# <legend>Location</legend> #}
-        					{# <input type="radio" name="radio-choice" id="radio-choice-1" value="cur" checked="checked" /> #}
-     						{# <label for="radio-choice-1" style="color: #049cdb;">Current location</label> #}
-					
-     						{# <input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  /> #}
-     						{# <label for="radio-choice-2">Custom address</label> #}
-     					{# </fieldset> #}
-        				{# {% endif %} #}
-        			    {{ field.errors }}
-        			    {{ field.label_tag }} {{ field }}
-        			</div>
+
+				{% if field.label = "Location" %}
+					<li class="fieldWrapper" data-role="fieldcontain">
+						<label for="id_location">Location</label>
+						<input type="text" name="location" id="id_location" readonly value="{{ place }}">
+					</li>
+				{% else %}
+
+				{% if field.label = "Latitude" %}
+					<input type="text" name="latitude" value="{{ latitude }}" style="display: none;">
+				{% else %}
+				{% if field.label = "Longitude" %}
+        			<input type="text" name="longitude" value="{{ longitude }}" style="display: none;">
+        		{% else %}
+        		<li class="fieldWrapper {% if field.errors %}errors{% endif %}" data-role="fieldcontain">
+        			{# {{ field.errors }} #}
+        			{{ field.label_tag }} {{ field }}
+        		</li>
+    			{% endif %}
+    			{% endif %}
+    			{% endif %}
     			{% endfor %}
+    			</ul>
 				<input id="submit-button" type="submit" value="Submit" data-theme="b" />
 			</form>
 		</div>
@@ -53,20 +61,6 @@
 		{# </div> #}
 	{# </div> #}
 	<script type="text/javascript">
-		//Hide latitude and longitude
-		$('#id_latitude, label[for="id_latitude"]').hide()
-		$('#id_longitude').parent().hide()
-		// $('#id_image').parent().hide()
-
-		$('#fake_location').on('change', function() {
-			if ($(this).val() == 'cur') {
-				if($.cookie('userLat')) {$('#id_latitude').val($.cookie('userLat'))}  
-				if($.cookie('userLon')) {$('#id_longitude').val($.cookie('userLon'))} 
-			} else {
-				$( "#popupLocation" ).popup("open")
-			}
-		})
-
 		$('#id_description').attr('placeholder', 'Description')
 
 		// This snippet allows us to pull up the image selector when a user taps the "Tap to add image" icon
@@ -82,7 +76,6 @@
    			if (prev_url) {
    				$('#submit-form').attr('action', $('#submit-form').attr('action') + "?next=" + prev_url)
    			}
-   			updateLocation()
 		});
 
 		$('#id_image').on('change', function () {

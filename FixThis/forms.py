@@ -13,6 +13,11 @@ class SubmitForm(ModelForm):
     	widget=forms.widgets.Textarea()
     )
 
+	location = forms.CharField(
+    	# widget=forms.widgets.CharField(attrs = {'readonly':'true'}),
+    )
+
+
 	urgency = forms.IntegerField(
     	widget = five_forms.widgets.RangeInput(
             attrs = dict(
