@@ -9,7 +9,7 @@
 		<div id="login-buttons" data-role="controlgroup" data-type="horizontal" class="center">
 			<a id="login-button"    href="#login-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Sign in</a>
 			<a id="register-button" href="#register-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Register</a>
-			<a id="skip-button" 	href="{% url skip %}" data-role="button" data-theme="c" data-transition="flow"{% block  skip_button %}onClick="_gaq.push(['_trackEvent', 'Authentication', 'Skip', 'Skip']);">Skip{% endblock %}</a>
+			<a id="skip-button" 	href="{% url skip %}" data-role="button" data-theme="c" data-transition="flow" onClick="_gaq.push(['_trackEvent', 'Authentication', 'Skip', 'Skip']);">{% block skip_button %}Skip{% endblock %}</a>
 		</div>
 		<div id="bottom-half">
 			{% include "includes/auth_forms.html" %}

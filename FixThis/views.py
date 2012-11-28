@@ -91,7 +91,7 @@ def login(request, *args, **kwargs):
     })
 
     response.update(csrf(request))
-    return render_to_response('pages/login.html', response)
+    return render_to_response(kwargs.pop('template'), response)
 
 def createUser(request, *args, **kwargs):
 	redirect_to = request.REQUEST.get('next', '')

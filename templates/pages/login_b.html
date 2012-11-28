@@ -1,2 +1,18 @@
-{% extends "pages/login.html" %}
-{% block skip_button %}onClick="_gaq.push(['_trackEvent', 'Authentication', 'Skip', 'Tour']);">Take a tour{% endblock %}
+{% extends "base.html" %}
+{% block id %}login{% endblock id %}
+{% block content %}
+	<div data-role="content">
+		<h1 class="center"><i class="icon-wrench"></i> FixThis</h1>
+		<br><br>
+		<p style="text-align:center; color: #666;">FixThis lets you report and keep track of things that are broken in your area.</p>
+		<br><br>
+		<div id="login-buttons" data-role="controlgroup" data-type="horizontal" class="center">
+			<a id="login-button"    href="#login-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Sign in</a>
+			<a id="register-button" href="#register-form" data-rel="popup" data-position-to="window" data-transition="pop" data-role="button" data-theme="c">Register</a>
+			<a id="skip-button" 	href="{% url skip %}" data-role="button" data-theme="c" data-transition="flow" onClick="_gaq.push(['_trackEvent', 'Authentication', 'Skip', 'Tour']);">Take a tour</a>
+		</div>
+		<div id="bottom-half">
+			{% include "includes/auth_forms.html" %}
+		</div>
+	</div>
+{% endblock %}
