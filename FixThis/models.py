@@ -34,7 +34,7 @@ class Request(models.Model):
 	# These fields are required by django-places
 	latitude = models.DecimalField(max_digits=36, decimal_places=16)
 	longitude = models.DecimalField(max_digits=36, decimal_places=16)
-	location = models.CharField(blank=True, null=True, max_length=50)
+	location = models.CharField(blank=True, null=True, max_length=200)
 
 	objects = PlaceManager()
 	tags = TaggableManager()
