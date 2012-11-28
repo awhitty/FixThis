@@ -243,7 +243,7 @@ def updateRequestStatus(request, request_id, *args, **kwargs):
 def myfixthis(request, *args, **kwargs):
 	profile, created = Profile.objects.get_or_create(user=request.user)
 	# subscribed_requests = Request.objects.filter(tags__name__in=profile.subscribed_tags.all())
-	subscribed_requests = Request.objects.all()
+	# subscribed_requests = Request.objects.all()
 	submitted_requests = Request.objects.filter(submitted_user=request.user)
 	assigned_requests = Request.objects.filter(assigned_user=request.user)
 
@@ -251,7 +251,7 @@ def myfixthis(request, *args, **kwargs):
 		'request': request,
 		'submitted': submitted_requests,
 		'assigned': assigned_requests,
-		'subscribed': subscribed_requests,
+		# 'subscribed': subscribed_requests,
 	})
 
 	return render_to_response('pages/myfixthis.html', response)
