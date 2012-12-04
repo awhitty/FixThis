@@ -24,9 +24,14 @@
 		    	    
 		    	</ul>
 		</div>
-	</div>
 
 	{% if request.user.is_anonymous %}
-		{% include "includes/auth_forms.html" %}
+	    {% include "includes/auth_forms.html" %}
+
+	<a href="#popupInfo" data-icon="info" data-theme="b" data-rel="popup" data-role="button" data-position-to"window">Help</a>
+<div data-role="popup" id="popupInfo" class="ui-content" data-theme="e" style="max-width:350px;">
+          <p>Use the <strong>Submit</strong> button to report an issue. The <strong>List</strong> and <strong>Map</strong> buttons provide you two different views of FixThis requests in your area.</p>
+	  </div>
+	</div>
 	{% endif %}
 {% endblock content %}
