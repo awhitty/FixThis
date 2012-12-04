@@ -1,23 +1,44 @@
 {% extends "base.html" %}
-{% load markup %}
-{% block id %}detail{% endblock id %}
+{% load markup thumbnail %}
+{% block id %}detail-{{ fix.id }}{% endblock id %}
+{% block class %}detail{% endblock class %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ fix.description|truncatewords:5 }}</h1>
-		<a href="{% url list-requests %}" data-transition-direction="reverse" data-icon="arrow-l">Back</a>
-		<div id="status-select" class="ui-btn-right">
+
+		{% if back %}
+			<a href="{% url list-requests %}" data-transition-direction="reverse" data-icon="arrow-l">Back</a>
+			{% else %}
+			<a href="#" data-rel="back" data-icon="arrow-l">Back</a>
+		{% endif %}
+		
+		{% if fix.status = 1 %}
+			{% if fix.assigned_user = request.user %}
+				<form id="status-select" action="{% url update-request fix.id %}" method="post" class="ui-btn-right">
+					<select name="select-choice-4" id="select-choice-4" data-theme="b" tabindex="-1">
+						<option {% if fix.status = 0 %}selected="selected"{% endif %} id="open" value="0">Open</option>
+						<option {% if fix.status = 1 %}selected="selected"{% endif %} id="taken" value="1">Taken</option>
+						<option {% if fix.status = 2 %}selected="selected"{% endif %} id="done" value="2">Done</option>
+					</select>
+				</form>
+			{% else %}
+				<a href="#" class="ui-disabled">Taken</a>
+			{% endif %}
+		{% else %}
+		<form id="status-select" action="{% url update-request fix.id %}" method="post" class="ui-btn-right">
 			<select name="select-choice-4" id="select-choice-4" data-theme="b" tabindex="-1">
 				<option {% if fix.status = 0 %}selected="selected"{% endif %} id="open" value="0">Open</option>
 				<option {% if fix.status = 1 %}selected="selected"{% endif %} id="taken" value="1">Taken</option>
 				<option {% if fix.status = 2 %}selected="selected"{% endif %} id="done" value="2">Done</option>
 			</select>
-		</div>
+		</form>
+		{% endif %}
 	</div>
 	<br>
 	<div class="carousel" id="{{ fix.id }}">
-		<ul style="height: {{ fix.image.height }};">
-			<li><img src="{{ fix.image.url }}" alt="" /></li>
+		<ul style="height: {{ fix.image.height }};" >
 			<li><img id="{{ fix.id }}-map" /></li>
+			<li><img src="{% thumbnail fix.image 'large' %}" alt=""/></li>
 		</ul>
 	</div>
 	<div data-role="content">
@@ -64,7 +85,7 @@
 		$('#{{ fix.id }}-map').attr('src', url);
 		$('#{{ fix.id }} img').width($(document).width() - 20);
 
-		$('#detail').live('pageshow', function() {
+		$('#detail-{{ fix.id }}').live('pageshow', function() {
 			window.swipe{{ fix.id }} = new Swipe(
 				document.getElementById('{{ fix.id }}'), {
 					callback: function() {
@@ -72,12 +93,17 @@
 					}
 				}
 			);
+
+			swipe{{ fix.id }}.slide(1, 1000)
 		})
 
 		$('select').on('change', function(e) {
 			_gaq.push(['_trackEvent', 'Requests', 'Update Status', $(this).val()]);
-			$.post('{% url update-request fix.id %}', { 'status': $(this).val(), }, function(data){
-				alert('Successfully updated status.')
+			var form = $('form').has($(this))
+			$.mobile.loading( 'show' )
+			$.post(form.attr('action'), { status: $(this).val() }, function() {
+				$.mobile.loading( 'hide' )
+				alert('Successfully updated the status.')
 			})
 		})
 	</script>

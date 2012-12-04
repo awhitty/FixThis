@@ -2,20 +2,6 @@
 <!DOCTYPE html> 
 <html> 
 <head>
-	<!-- Google Analytics Content Experiment code -->
-<script>function utmx_section(){}function utmx(){}(function(){var
-k='66493586-0',d=document,l=d.location,c=d.cookie;
-if(l.search.indexOf('utm_expid='+k)>0)return;
-function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
-indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
-length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
-'<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
-'://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
-'&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
-valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
-'" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-</script><script>utmx('url','A/B');</script>
-<!-- End of Google Analytics Content Experiment code -->
 	<title>FixThis</title> 
 
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,11 +21,11 @@ valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 	<script type="text/javascript" src="https://raw.github.com/bradbirdsall/Swipe/master/swipe.min.js"></script>
 </head> 
 <body>
-	<div id="{% block id %}{% endblock id %}" data-role="page" data-url="{{ request.get_full_path }}">
+	<div id="{% block id %}{% endblock id %}" class="{% block class %}{% endblock class %}" data-role="page" data-url="{{ request.get_full_path }}">
 		{% if messages %}
 			<ul class="messages" data-role="listview">
     		{% for message in messages %}
-    			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}><i class="icon-info-sign"></i> {{ message }}</li>
     		{% endfor %}
 			</ul>
 		{% endif %}

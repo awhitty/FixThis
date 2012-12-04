@@ -25,9 +25,14 @@ def getLocation(request):
 	return latitude, longitude, place
 
 def home(request, *args, **kwargs):
+	latitude, longitude, place = getLocation(request)
+
 	if request.user.is_authenticated() or 'skip' in request.session:
 		response = RequestContext(request, {
 			'request': request,
+			'latitude': latitude,
+			'longitude': longitude,
+			'place': place
 		})
 
 		if 'skip' in request.session:
@@ -47,6 +52,7 @@ def setLocation(request, *args, **kwargs):
 	place = request.POST.get('place', None)
 
 	next = request.GET.get('next', '/')
+	print next
 
 	if lat and lon:
 		request.session['latitude'] = lat
@@ -125,7 +131,7 @@ def listRequests(request, *args, **kwargs):
 
 	if latitude and longitude:
 		radius = request.GET.get('radius', 2)
-		requests = Request.objects.nearby(latitude, longitude, radius)
+		requests = Request.objects.nearby(latitude, longitude, radius).filter(status__lt=2)
 	else:
 		return redirect('location')
 
@@ -164,14 +170,15 @@ def detailRequest(request, request_id, *args, **kwargs):
 
 	fixthis_request = get_object_or_404(Request, pk=request_id)
 
-
-
 	response = RequestContext(request, {
 		'request': request, 
 		'fix': fixthis_request,
 		'latitude': latitude,
 		'longitude': longitude,
 	})
+
+	if request.GET.get('added',None):
+		response['back'] = True
 
 	return render_to_response('pages/detail.html', response)
 
@@ -195,7 +202,10 @@ def addRequest(request, *args, **kwargs):
 		    	req.submitted_user = request.user
 
 	    		req.save()
-	    		return redirect('detail-request', req.id)
+	    		messages.success(request, "Your request was submitted!")
+	    		response = redirect('detail-request', req.id )
+	    		response['Location'] += '?added=true'
+	    		return response
 
 		else:
 			back = True
@@ -224,21 +234,26 @@ def settingsPage(request, *args, **kwargs):
 
 def updateRequestStatus(request, request_id, *args, **kwargs):
 	fixthis_request = get_object_or_404(Request, pk=request_id)
+	print request
+
 	if request.method == 'POST':
-		status = request.POST.get('status','')
+		status = request.POST.get('status', '')
+		print status
 		if status == '0':
 			fixthis_request.status = 0
 			fixthis_request.assigned_user = None
 		elif status == '1':
+			print 'hi'
 			fixthis_request.status = 1
 			fixthis_request.assigned_user = request.user
 		else:
 			fixthis_request.status = 2
 			fixthis_request.assigned_user = None
 
-		print fixthis_request.save()
+		fixthis_request.save()
+		messages.success(request, "Sucessfully updated the status to %s." % fixthis_request.get_status_display())
 
-	return HttpResponse("Success!")
+	return HttpResponse('Saved!')
 
 def myfixthis(request, *args, **kwargs):
 	profile, created = Profile.objects.get_or_create(user=request.user)

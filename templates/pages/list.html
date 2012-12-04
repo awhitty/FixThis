@@ -3,14 +3,14 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>List</h1>
-		<a href="/" data-transition="pop"><i class="icon-th"></i></a>
+		<a href="/" data-transition="pop"><i class="icon-home"></i></a>
 		<a href="{% url add-request %}" data-transition="slidedown"><i class="icon-plus"></i> Submit</a>
 	</div>
 
 	<div data-role="content">
 		<ul data-role="listview">
 			{% if requests %}
-				{% regroup requests|dictsort:"status"|dictsort:"urgency" by get_status_display as request_list %}
+				{% regroup requests|dictsortreversed:"urgency"|dictsort:"status" by get_status_display as request_list %}
 				{% for status in request_list %}
 					<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">{{ status.grouper }} FixThis requests</li>
 					{% for item in status.list %}

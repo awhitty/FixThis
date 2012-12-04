@@ -4,7 +4,7 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Map</h1>
-		<a href="/" data-direction="reverse" data-transition="flow"><i class="icon-th"></i></a>
+		<a href="/" data-direction="reverse" data-transition="flow"><i class="icon-home"></i></a>
 		<a href="{% url add-request %}" data-transition="slidedown" data-rel="dialog"><i class="icon-plus"></i> Submit</a>
 	</div>
 	<div id="map">
@@ -16,7 +16,7 @@
       		lat: {{ latitude }},
       		lng: {{ longitude }},
       		width: '100%',
-      		height: '430px',
+      		height: $('body').height() + 'px',
           panControl: false,
           zoomControl: false,
           streetViewControl: false,

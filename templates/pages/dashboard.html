@@ -9,6 +9,9 @@
 	</div>
 
 	<div data-role="content">
+		{% if place %}
+			<p class="ui-block-b muted">{{ place }}</p>
+		{% endif %}
 		<div class="icon-grid" data-role="navbar" data-iconpos="top">
 		    	<ul>
 		    	    <li><a href="{% url map-requests %}"      class="ui-btn" data-transition="flow"><i class="icon-map-marker"></i>Map</a></li>

@@ -7,5 +7,8 @@
 			<p class="muted ui-li-desc">{% distance_to latitude longitude fix.latitude fix.longitude %} miles from you</p>
 		{% endif %}
 		<span class="ui-li-count urgency-{{ fix.urgency }}">{{ fix.urgency }}</span>
+		<a href="#" data-icon="delete">Delete this request</a>
+		{# TODO: Add split button for deleting #}
+		{# TODO: Add submitted by #}
 	</a>
 </li>

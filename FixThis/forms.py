@@ -31,7 +31,7 @@ class SubmitForm(ModelForm):
 		choices=( (x.name, x.name) for x in Request.tags.most_common()),
 		widget = forms.widgets.SelectMultiple(
 			attrs = {
-				'data-native-menu': 'false',
+				# 'data-native-menu': 'false',
 			}),
 		)
 

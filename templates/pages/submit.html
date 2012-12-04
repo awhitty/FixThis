@@ -4,7 +4,7 @@
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>Submit</h1>
 		<a href="/" {% if back %}{% else %}data-rel="back"{% endif %}>Cancel</a>
-		<a href="/" data-direction="reverse" data-transition="pop">Dashboard</a>
+		<a href="/" data-direction="reverse" data-transition="pop"> <i class="icon-home"></i>	</a>
 	</div>
 
 	<div data-role="content">
@@ -43,6 +43,7 @@
     			{% endif %}
     			{% endfor %}
     			</ul>
+    			<br>
 				<input id="submit-button" type="submit" value="Submit" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Requests', 'Submit',]);" />
 			</form>
 		</div>

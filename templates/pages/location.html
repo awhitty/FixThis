@@ -4,6 +4,7 @@
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<a href="/" data-direction="reverse" data-transition="flow">Cancel</a>
 		<h1>Set Location</h1>
+		<a id="continue" href="#" class="ui-disabled">Continue</a>
 	</div>
 	<div id="location-map"></div>
 		<script type="text/javascript">
@@ -14,8 +15,8 @@
 			   	lat: 39.5,
   			 	lng: -98.35,
   			 	width: '100%',
-  			 	height: '300px',
-  			 	zoom: 1,
+  			 	height: $('body').height() + 'px',
+  			 	zoom: 5,
   			 	panControl: false,
   			 	zoomControl: false,
   			 	streetViewControl: false,
@@ -64,18 +65,20 @@
 				GMaps.geolocate({
 				  success: function(position) {
 				  	setLatLon(position.coords.latitude, position.coords.longitude)
-				  	$.mobile.loading( 'hide' )
+				  	$.mobile.loading('hide')
+				  	$('#continue').removeClass("ui-disabled")
 				  },
 				  error: function(error) {
 				    alert('Geolocation failed: '+error.message);
-				    $.mobile.loading( 'hide' )
+				    $.mobile.loading('hide')
 				  },
 				});
 			}
 
 			function searchLocation() {
 				$('#locationPopup').popup('open')
-				$('#search').click(function(e) {
+				$('#address').focus()
+				$('#search').submit(function(e) {
 					$.mobile.loading( 'show' )
 					$('#locationPopup').popup('close')
 					GMaps.geocode({
@@ -94,9 +97,11 @@
 				    		$('#longitude').val(latlng.lng());
 				    		$('#place').val(results[0].formatted_address);
 				    		$.mobile.loading( 'hide' )
+				    		$('#continue').removeClass("ui-disabled")
 					    }
 					  }
 					});
+					return false;
 				})
 			}
 
@@ -121,23 +126,33 @@
 				  }
 				});
 			}
+			$( "#locationPopup" ).bind({
+		   		popupafteropen: function(event, ui) { 
+		   			$('#address').focus() 
+		   		}
+			});
+
+			$('#continue').click(function() {
+				$('#fields').submit()
+			})
 		})
 
 		</script>
 
 		<div data-role="content">
-			<form action="{% url location %}?next={{ next }}" method="post" data-ajax="false">
-				<input type="text" name="place" id="place" value="" readonly placeholder="Place" >
+			<form id="fields" action="{% url location %}?next={{ next }}" method="post" data-ajax="false">
+				<input type="text" name="place" id="place" value="" readonly placeholder="Place" style="display:none;">
 				<input type="text" name="latitude" id="latitude" value="" readonly placeholder="Latitude" style="display:none;">
 				<input type="text" name="longitude" id="longitude" value="" readonly placeholder="Longitude" style="display:none;">
-				<input type="submit" value="Continue" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Location', 'Set Location']);">
 			</form>
 		</div>
 
 		<div data-role="popup" id="locationPopup" data-theme="a">
 			<div style="padding:10px 20px;">
+				<form id="search">
 				  <input type="search" name="address" id="address" value="" placeholder="Address" width="300px">
-				  <button data-theme="b" id="search">Search</button>
+				  <input type="submit" data-theme="b" value="Search" />
+				</form>
 			</div>	
 		</div>
 {% endblock content %}
