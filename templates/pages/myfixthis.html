@@ -3,14 +3,14 @@
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
 		<h1>{{ request.user }}'s FixThis</h1>
-		<a href="{% url home 5}" data-rel="back" data-transition="pop"><i class="icon-home"></i></a>
+		<a href="{% url home %}" data-direction="reverse" data-transition="slide"><i class="icon-home"></i></a>
 	</div>
 	
 	<div data-role="content">
 		<ul data-role="listview">
 			<li data-role="list-divider">Things you need to fix</li>
 			{% if assigned %}
-				{% for req in assigned %}
+				{% for req in assigned|dictsortreversed:"urgency" %}
 					{% include "includes/list_item.html" with fix=req %}
 				{% endfor %}
 			{% else %}
@@ -20,7 +20,7 @@
 			{% endif %}
 			<li data-role="list-divider">Things you want fixed</li>
 			{% if submitted %}
-				{% for req in submitted %}
+				{% for req in submitted|dictsortreversed:"urgency" %}
 					{% include "includes/list_item.html" with fix=req %}
 				{% endfor %}
 			{% else %}

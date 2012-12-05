@@ -7,7 +7,12 @@
 			<p class="muted ui-li-desc">{% distance_to latitude longitude fix.latitude fix.longitude %} miles from you</p>
 		{% endif %}
 		<span class="ui-li-count urgency-{{ fix.urgency }}">{{ fix.urgency }}</span>
-		<a href="#" data-icon="delete">Delete this request</a>
+		{% if fix.submitted_user = request.user %}
+			<a href="#" data-icon="delete">Delete this request</a>
+		{% else %} {% if fix.status != 2 %}
+			<a href="#" data-icon="gear">Change the status</a>
+		{% endif %}
+		{% endif %}
 		{# TODO: Add split button for deleting #}
 		{# TODO: Add submitted by #}
 	</a>

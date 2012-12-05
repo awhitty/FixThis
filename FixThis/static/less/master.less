@@ -8,12 +8,36 @@
     -webkit-backface-visibility: hidden;
 }
 
+// colors
+.red { color: @red!important; }
+.green { color: @green!important; }
+.blue { color: @blue!important; }
+.blueDark { color: @blueDark!important; }
+.yellow { color: @yellow!important; }
+.orange { color: @orange!important; }
+.pink { color: @pink!important; }
+.purple { color: @purple!important; }
+
+.ui-bar-b, .ui-btn-up-b {
+	#gradient.vertical(@blue, darken(@blue,5%));
+}
+
+.ui-btn-hover-b {
+	#gradient.vertical(@blue, lighten(@blue,5%));
+}
+
+.ui-btn-active, .ui-btn:active {
+	#gradient.vertical(@blue, lighten(@blue,10%));
+	color: #fff;
+	text-shadow: none;
+}
+
 .toolbar
 {
 	// background: url('../img/noise.png');
-	#gradient.vertical(@blue, @blueDark);
+	#gradient.vertical(@blue, darken(@blue,8%));
 	color: #fff;
-	text-shadow: 0 1px 0 #000;
+	text-shadow: 0 1px 0 rgba(0,0,0,.6);
 	border-color: rgba(0,0,0,0);
 
 	[class*='ui-btn'], [class^='ui-btn'] {
@@ -27,8 +51,48 @@
 		color: rgba(0,0,0,.7);
 		text-shadow: 0 1px 0 rgba(255,255,255,.5);
 		border: none;
-		border-bottom: 1px solid lighten(@yellow,30%);
+		border-bottom: 1px solid rgba(0,0,0,.2);
 		font-weight: normal;
+
+		&.success {
+			background: lighten(@green, 40%);
+
+			&:before {
+				font-family: "FontAwesome";
+				content: "\f00c";
+				margin-right: 10px;
+			}
+		}
+
+		&.warning {
+			background: lighten(@orange, 40%);
+
+			&:before {
+				font-family: "FontAwesome";
+				content: "\f071";
+				margin-right: 10px;
+			}
+		}
+
+		&.info {
+			background: lighten(@blue, 40%);
+
+			&:before {
+				font-family: "FontAwesome";
+				content: "\f05a";
+				margin-right: 10px;
+			}
+		}
+
+		&.error {
+			background: lighten(@red, 50%);
+
+			&:before {
+				font-family: "FontAwesome";
+				content: "\f00d";
+				margin-right: 10px;
+			}
+		}
 	}
 }
 
@@ -42,25 +106,27 @@
 				.border-radius(10px);
 				margin: 10px !important;
 				border: 1px solid rgba(0,0,0,.2) !important;
+
 				i
 				{
 					margin: 0 auto;
 					display: block;
 					font-size: 40px;
-					color: #666;
+					color: rgba(0,0,0,.5);
 				}
 				
 				&.ui-btn-active
 				{
-					#gradient.vertical(@blue, @blueDark);
-					i { color: #fff; }
-					text-shadow: 0 1px 0 #000;
+					#gradient.vertical(@blue, lighten(@blue,10%));
+					i { color: rgba(255, 255, 255, .8); text-shadow: 0 1px 0 rgba(255,255,255,0); }
+
+					text-shadow: 0 1px 0 rgba(0,0,0,0);
 				}
 
-				&:active
-				{
-					#gradient.vertical(lighten(@grayLight, 20%), lighten(@grayLight, 30%));
-				}
+				// &:active
+				// {
+				// 	#gradient.vertical(@grayLighter, lighten(@grayLighter, 10%));
+				// }
 			}
 		}
 

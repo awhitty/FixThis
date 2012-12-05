@@ -1,30 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="toolbar" data-role="header" data-position="fixed">
-		{% if request.user.is_authenticated %}
-		<h1>Welcome, {{ request.user }}!</h1>
-		{% else %}
-		<h1>Welcome!</h1>
-		{% endif %}
+		<h1>Dashboard</h1>
 	</div>
 
 	<div data-role="content">
-		{% if place %}
-			<p class="ui-block-b muted">{{ place }}</p>
-		{% endif %}
+		{# {% if place %} #}
+			{# <p class="ui-block-b muted">{{ place }}</p> #}
+		{# {% endif %} #}
 		<div class="icon-grid" data-role="navbar" data-iconpos="top">
 		    	<ul>
-		    	    <li><a href="{% url map-requests %}"      class="ui-btn" data-transition="flow"><i class="icon-map-marker"></i>Map</a></li>
+		    	    <li><a href="{% url map-requests %}"      class="ui-btn" data-transition="slide"><i class="icon-map-marker"></i>Map</a></li>
 		    	    <li><a href="{% url add-request %}"   class="ui-btn" data-transition="slidedown"><i class="icon-plus"></i>Submit</a></li>
-		    	    <li><a href="{% url list-requests %}"     class="ui-btn" data-transition="flow"><i class="icon-list"></i>List</a></li>
-		    	    {# <li><a href="#search"   class="ui-btn" data-transition="flow"><i class="icon-search"></i>Search</a></li> #}
+		    	    <li><a href="{% url list-requests %}"     class="ui-btn" data-transition="slide"><i class="icon-list"></i>List</a></li>
+		    	    {# <li><a href="#search"   class="ui-btn" data-transition="slide"><i class="icon-search"></i>Search</a></li> #}
 		    	    {% if request.user.is_authenticated %}
-		    	    <li><a href="{% url myfixthis %}"  class="ui-btn" data-transition="flow"><i class="icon-user"></i>My FixThis</a></li>
+		    	    <li><a href="{% url myfixthis %}"  class="ui-btn" data-transition="slide"><i class="icon-user"></i>My FixThis</a></li>
 		    	    {% endif %}
 		    	    {# <li><a href="{% url settings %}" class="ui-btn" data-transition="flip"><i class="icon-cogs"></i>Settings</a></li> #}
-		    	    <li><a href="{% url location %}"     class="ui-btn" data-transition="flow"><i class="icon-screenshot"></i>Update Location</a></li>
+		    	    <li><a href="{% url location %}"     class="ui-btn" data-transition="slide"><i class="icon-screenshot"></i>Update Location</a></li>
 		    	    {% if request.user.is_authenticated %}
-		    	    	<li><a href="{% url logout %}?next={% url home %}"	class="ui-btn" data-transition="flow"><i class="icon-signout"></i>Logout</a></li>
+		    	    	<li><a href="{% url logout %}?next={% url home %}"	class="ui-btn" data-transition="slide"><i class="icon-signout"></i>Logout</a></li>
 		    	    {% else %}
 		    	    	<li><a href="#login-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-signin"></i>Sign in</a></li>
 		    	    	<li><a href="#register-form" data-rel="popup" class="ui-btn" data-transition="pop" data-position-to="window"><i class="icon-unlock"></i>Register</a></li>
