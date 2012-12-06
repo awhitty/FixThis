@@ -21,7 +21,7 @@
 
 				{% if field.label = "Location" %}
 					<li class="fieldWrapper" data-role="fieldcontain">
-						<label for="id_location">Location</label>
+						<label for="id_location">Location <span class="muted">(approximate)</span> </label>
 						<input type="text" name="location" id="id_location" readonly value="{{ place }}">
 					</li>
 				{% else %}
@@ -44,7 +44,12 @@
     			{% endfor %}
     			</ul>
     			<br>
-				<input id="submit-button" type="submit" value="Submit" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Requests', 'Submit',]);" />
+    			{% if request.user.is_authenticated %}
+    				<input id="submit-button" type="submit" value="Submit" data-theme="b" onClick="_gaq.push(['_trackEvent', 'Requests', 'Submit',]);" />	
+    			{% else %}
+    				<a href="#" data-role="button" data-theme="b">Please login to submit</a>
+    			{% endif %}
+				
 			</form>
 		</div>
 	</div>

@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 
     # Submitting a request
     url(r'^requests/add/$', 'FixThis.views.addRequest', name='add-request'),
+    url(r'^requests/delete/(?P<request_id>\d+)/$', 'FixThis.views.removeRequest', name='delete-request'),
 
     url(r'^requests/search/$', 'FixThis.views.home', name='search-request'),
     url(r'^requests/detail/(?P<request_id>\d+)/$', 'FixThis.views.detailRequest', name='detail-request'),

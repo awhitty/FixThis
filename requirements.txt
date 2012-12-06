@@ -11,6 +11,7 @@ django-storages==1.1.5
 -e git://github.com/alex/django-taggit.git@36f6dabcf10e27c7d9442a94243d4189f2a4f121#egg=django_taggit-dev
 gunicorn==0.15.0
 -e git://github.com/rhec/django-html5.git@c4a76e02744422c3305f01ca361ab4b0cdcd1198#egg=html5-dev
+-e git://github.com/duointeractive/pial.git@e7369857f3c42cacdf3185f018481aecbba98907#egg=pial-dev
 psycopg2==2.4.5
 pylibmc==1.2.3
 python-memcached==1.48

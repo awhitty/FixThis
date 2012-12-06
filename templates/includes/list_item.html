@@ -8,10 +8,7 @@
 		{% endif %}
 		<span class="ui-li-count urgency-{{ fix.urgency }}">{{ fix.urgency }}</span>
 		{% if fix.submitted_user = request.user %}
-			<a href="#" data-icon="delete">Delete this request</a>
-		{% else %} {% if fix.status != 2 %}
-			<a href="#" data-icon="gear">Change the status</a>
-		{% endif %}
+			<a href="{% url delete-request fix.id %}" data-icon="delete" data-rel="dialog">Delete this request</a>
 		{% endif %}
 		{# TODO: Add split button for deleting #}
 		{# TODO: Add submitted by #}

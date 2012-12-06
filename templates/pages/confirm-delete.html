@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% if fix.submitted_user = request.user %}
+	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
+		<h1>Are you sure?</h1>
+	</div>
+	<div data-role="content">
+		<p>This will delete the request <strong>{{ fix.description|truncatewords:5 }}</strong> from the database.</p>
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<a href="#" data-role="button" data-rel="back">Cancel</a>
+			</div>
+			<div class="ui-block-b">
+				<form action="{% url delete-request fix.id %}" method="post">
+					<input type="submit" name="submit" value="Delete it" data-theme="b">
+				</form>
+			</div>
+		</div>
+	</div>
+{% else %}
+	<div class="toolbar" data-role="header" data-position="fixed" data-theme="b">
+		<h1>Not allowed!</h1>
+	</div>
+	<div data-role="content">
+		<p>You didn't submit this request. You are not allowed to delete it.</p>
+	</div>
+{% endif %}
+{% endblock content %}

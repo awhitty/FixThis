@@ -25,9 +25,8 @@ def getLocation(request):
 	return latitude, longitude, place
 
 def home(request, *args, **kwargs):
-	latitude, longitude, place = getLocation(request)
-
 	if request.user.is_authenticated() or 'skip' in request.session:
+		latitude, longitude, place = getLocation(request)
 		response = RequestContext(request, {
 			'request': request,
 			'latitude': latitude,
@@ -223,6 +222,23 @@ def addRequest(request, *args, **kwargs):
 
 	response.update(csrf(request))
 	return render_to_response('pages/submit.html', response)
+
+def removeRequest(request, request_id, *args, **kwargs):
+	fixthis_request = get_object_or_404(Request, pk=request_id)
+
+	if request.method == 'POST':
+		fixthis_request.delete()
+		messages.success(request, "Successfully deleted the request.")
+
+		return redirect(request.META.get('HTTP_REFERER','/'))
+
+	response = RequestContext(request, {
+		'request': request,
+		'fix': fixthis_request
+	})
+
+	return render_to_response('pages/confirm-delete.html', response)
+
 
 def settingsPage(request, *args, **kwargs):
 	profile, created = Profile.objects.get_or_create(user=request.user)
